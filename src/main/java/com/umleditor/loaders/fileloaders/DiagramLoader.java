@@ -1,6 +1,6 @@
 package com.umleditor.loaders.fileloaders;
 
-import com.umleditor.common.UMLDiagram;
+import com.umleditor.common.interfaces.UMLDiagram;
 import com.umleditor.loaders.daos.interfaces.DiagramDAO;
 
 import java.util.HashMap;

@@ -1,6 +1,6 @@
-package com.umleditor.classdiagram;
+package com.umleditor.classdiagram.enums;
 
-public enum UMLCDRelationshipType {
+public enum UMLCDRelationType {
     ASSOCIATION,
     INHERITANCE,
     REALIZATION,

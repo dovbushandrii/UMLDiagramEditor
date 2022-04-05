@@ -1,6 +1,6 @@
 package com.umleditor.loaders.daos.interfaces;
 
-import com.umleditor.common.UMLDiagram;
+import com.umleditor.common.interfaces.UMLDiagram;
 import com.umleditor.loaders.daos.exceptions.DiagramFileReadException;
 
 public interface DiagramDAO {
