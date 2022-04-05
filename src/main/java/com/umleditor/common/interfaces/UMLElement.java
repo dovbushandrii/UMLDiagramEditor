@@ -1,6 +1,8 @@
 package com.umleditor.common.interfaces;
 
-public interface UMLElement {
+import java.io.Serializable;
+
+public interface UMLElement extends Serializable {
     String getName();
     void setName(String name);
 }

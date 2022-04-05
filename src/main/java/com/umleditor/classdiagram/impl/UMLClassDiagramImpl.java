@@ -15,8 +15,9 @@ import java.util.stream.Collectors;
 
 public class UMLClassDiagramImpl implements UMLClassDiagram {
 
-    List<UMLClass> allClasses = new ArrayList<>();
-    List<UMLCDRelation> allRelations = new ArrayList<>();
+    private String name;
+    private List<UMLClass> allClasses = new ArrayList<>();
+    private List<UMLCDRelation> allRelations = new ArrayList<>();
 
     @Override
     public List<UMLClass> getClasses() {
@@ -109,5 +110,15 @@ public class UMLClassDiagramImpl implements UMLClassDiagram {
                                 r.getFrom().getName().equals(from)
                         )
                 ).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 }

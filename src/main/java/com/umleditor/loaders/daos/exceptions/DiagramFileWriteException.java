@@ -5,4 +5,7 @@ public class DiagramFileWriteException extends RuntimeException {
     public DiagramFileWriteException(String message) {
         super(message);
     }
+    public DiagramFileWriteException(Throwable cause) {
+        super(cause);
+    }
 }
