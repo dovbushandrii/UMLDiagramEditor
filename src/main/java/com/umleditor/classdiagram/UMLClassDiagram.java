@@ -1,6 +1,6 @@
-package com.umlui.classdiagram;
+package com.umleditor.classdiagram;
 
-import com.umlui.common.UMLClass;
+import com.umleditor.common.UMLClass;
 
 import java.util.List;
 

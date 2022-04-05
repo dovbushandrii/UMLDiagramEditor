@@ -1,4 +1,4 @@
-package com.umlui.common;
+package com.umleditor.common;
 
 public enum UMLElementModifier {
     PUBLIC,

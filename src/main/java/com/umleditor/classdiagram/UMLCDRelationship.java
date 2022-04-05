@@ -1,7 +1,7 @@
-package com.umlui.classdiagram;
+package com.umleditor.classdiagram;
 
-import com.umlui.common.UMLClass;
-import com.umlui.common.UMLElement;
+import com.umleditor.common.UMLClass;
+import com.umleditor.common.UMLElement;
 
 public interface UMLCDRelationship extends UMLElement {
     UMLCDRelationshipType getType();

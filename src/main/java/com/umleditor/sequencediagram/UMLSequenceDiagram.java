@@ -1,4 +1,4 @@
-package com.umlui.sequencediagram;
+package com.umleditor.sequencediagram;
 
 public interface UMLSequenceDiagram {
 

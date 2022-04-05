@@ -1,4 +1,4 @@
-package com.umlui.classdiagram;
+package com.umleditor.classdiagram;
 
 public enum UMLCDRelationshipType {
     ASSOCIATION,
