@@ -7,5 +7,5 @@ public interface DiagramDAO {
 
     UMLDiagram loadDiagram(String fileName) throws DiagramFileReadException;
 
-    boolean saveDiagram(UMLDiagram diagram, String fileName);
+    void saveDiagram(UMLDiagram diagram, String fileName);
 }
