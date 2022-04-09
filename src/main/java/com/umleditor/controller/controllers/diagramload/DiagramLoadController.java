@@ -25,10 +25,10 @@ public class DiagramLoadController {
             }
         }
         catch (IOException ex){
-            ErrorWindow.showError("File open fail: " + ex.getMessage());
+            ErrorWindow.showError("File open fail", ex.getMessage());
         }
         catch (ClassCastException ex) {
-            ErrorWindow.showError("App initialization fail: wrong page mapping");
+            ErrorWindow.showError("App initialization fail", "Wrong page mapping");
         }
 
     }
@@ -38,7 +38,7 @@ public class DiagramLoadController {
             FileManager.saveDiagramFile(diagram);
         }
         catch (IOException ex) {
-            ErrorWindow.showError("File save fail: " + ex.getMessage());
+            ErrorWindow.showError("File save fail", ex.getMessage());
         }
     }
 }

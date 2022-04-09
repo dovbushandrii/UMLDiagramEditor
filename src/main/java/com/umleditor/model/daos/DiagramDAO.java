@@ -1,4 +1,4 @@
-package com.umleditor.model.daos.impl;
+package com.umleditor.model.daos;
 
 import com.umleditor.model.common.interfaces.UMLDiagram;
 import com.umleditor.model.daos.exceptions.DiagramFileReadException;
@@ -24,9 +24,6 @@ public class DiagramDAO {
 
     public static void saveDiagram(UMLDiagram diagram, File saveTo) throws IOException {
         try {
-            if (!saveTo.exists()) {
-                saveTo.createNewFile();
-            }
             FileOutputStream fos = new FileOutputStream(saveTo);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 

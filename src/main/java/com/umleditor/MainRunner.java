@@ -1,16 +1,9 @@
 package com.umleditor;
 
-import com.umleditor.controller.controllers.window.MainWindow;
-import javafx.application.Application;
-import javafx.stage.Stage;
-
-public class MainRunner extends Application {
+// Issue 000001: JavaFX 'does not export com.sun.javafx.scene.layout to unnamed module' error
+// TODO: Fix Issue 000001
+public class MainRunner {
     public static void main(String[] args) {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        MainWindow.start(primaryStage);
+        AppRunner.startApp(args);
     }
 }

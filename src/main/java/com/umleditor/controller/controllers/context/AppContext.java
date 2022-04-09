@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AppContext {
-    private static Map<AppPage, Object> pageControllers = new HashMap<>();
-    private static Map<Class<? extends UMLDiagram>,AppPage> nameMap = new HashMap<>();
+    private final static Map<AppPage, Object> pageControllers = new HashMap<>();
+    private final static Map<Class<? extends UMLDiagram>,AppPage> nameMap = new HashMap<>();
 
     public static void addPageController(AppPage pageName, Object pageController) {
         if (pageController.getClass().isAnnotationPresent(PageController.class)) {
