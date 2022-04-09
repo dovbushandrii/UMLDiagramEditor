@@ -5,6 +5,7 @@ import com.umleditor.model.daos.impl.DiagramDAO;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 
 public class FileManager {
 
@@ -25,17 +26,17 @@ public class FileManager {
         return chooser;
     }
 
-    public static UMLDiagram openDiagramFile() {
+    public static UMLDiagram openDiagramFile() throws IOException {
         File selectedFile = initializeOpenChooser().showOpenDialog(null);
-        if(selectedFile != null) {
+        if (selectedFile != null) {
             return DiagramDAO.loadDiagram(selectedFile);
         }
         return null;
     }
 
-    public static void saveDiagramFile(UMLDiagram diagram) {
+    public static void saveDiagramFile(UMLDiagram diagram) throws IOException {
         File savedFile = initializeSaveChooser().showSaveDialog(null);
-        if(savedFile  != null) {
+        if (savedFile != null) {
             DiagramDAO.saveDiagram(diagram, savedFile);
         }
     }

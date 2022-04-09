@@ -1,9 +1,10 @@
 package com.umleditor.view.window.classdiagram;
 
 import javafx.scene.Parent;
+import javafx.scene.layout.GridPane;
 
-public class ClassDiagramViewPageBuilder {
+public class ClassDiagramPageBuilder {
     public static Parent buildPage() {
-        return null;
+        return new GridPane();
     }
 }

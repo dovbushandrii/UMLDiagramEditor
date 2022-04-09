@@ -7,7 +7,7 @@ import com.umleditor.model.daos.exceptions.DiagramFileWriteException;
 import java.io.*;
 
 public class DiagramDAO {
-    public static UMLDiagram loadDiagram(File loadFrom) {
+    public static UMLDiagram loadDiagram(File loadFrom) throws IOException {
         UMLDiagram result;
         try (FileInputStream fis = new FileInputStream(loadFrom);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
@@ -22,7 +22,7 @@ public class DiagramDAO {
         return result;
     }
 
-    public static void saveDiagram(UMLDiagram diagram, File saveTo) {
+    public static void saveDiagram(UMLDiagram diagram, File saveTo) throws IOException {
         try {
             if (!saveTo.exists()) {
                 saveTo.createNewFile();

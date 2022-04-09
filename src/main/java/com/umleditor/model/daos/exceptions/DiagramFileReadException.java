@@ -1,6 +1,8 @@
 package com.umleditor.model.daos.exceptions;
 
-public class DiagramFileReadException extends RuntimeException {
+import java.io.IOException;
+
+public class DiagramFileReadException extends IOException {
     public DiagramFileReadException() {}
     public DiagramFileReadException(String message) {
         super(message);
