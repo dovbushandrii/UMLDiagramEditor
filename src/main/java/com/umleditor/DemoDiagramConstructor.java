@@ -1,6 +1,8 @@
 package com.umleditor;
 
+import com.umleditor.model.classdiagram.UMLCDRelation;
 import com.umleditor.model.classdiagram.UMLClassDiagram;
+import com.umleditor.model.classdiagram.enums.UMLCDRelationType;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.UMLClassAttribute;
 import com.umleditor.model.common.UMLClassMethod;
@@ -13,9 +15,17 @@ public class DemoDiagramConstructor {
     public static UMLDiagram constructDemoDiagram() {
         UMLClassDiagram diagram = new UMLClassDiagram();
         diagram.setName("Dog-Owner-Diagram");
-        diagram.addClass(constructDog());
-        diagram.addClass(constructOwner());
-        diagram.addClass(abstractClass());
+        UMLClass dog = constructDog();
+        UMLClass owner = constructOwner();
+        UMLClass object = abstractClass();
+        diagram.addClass(dog);
+        diagram.addClass(owner);
+        diagram.addClass(object);
+
+        diagram.addRelation(dog,owner, UMLCDRelationType.ASSOCIATION);
+        diagram.addRelation(owner,object, UMLCDRelationType.ASSOCIATION);
+        diagram.addRelation(object,dog, UMLCDRelationType.ASSOCIATION);
+
         return diagram;
     }
 

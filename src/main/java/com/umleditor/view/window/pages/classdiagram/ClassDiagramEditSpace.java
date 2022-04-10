@@ -8,14 +8,14 @@ import com.umleditor.view.window.pages.interfaces.DiagramEditSpace;
 import com.umleditor.view.window.pages.interfaces.Shortcuts;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ClassDiagramEditSpace implements DiagramEditSpace {
@@ -82,14 +82,21 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
         if (diagram != null) {
             Pane editSpace = (Pane) this.editSpace.getChildren().get(1);
             // Delete previous diagram
-            editSpace.getChildren().removeAll();
+            editSpace.getChildren().clear();
             // Create new Diagram
-            List<Node> classes = diagram.getClasses()
-                    .stream()
-                    .map(ClassElementBuilder::constructClassElement)
-                    .collect(Collectors.toList());
-            classes.forEach(this::makeDraggable);
-            classes.forEach(c -> editSpace.getChildren().add(c));
+            Map<UMLClass, Node> elementMap = new HashMap<>();
+            diagram.getClasses().forEach(c -> {
+                Node classElement = ClassElementBuilder.constructClassElement(c);
+                makeDraggable(classElement);
+                editSpace.getChildren().add(classElement);
+                elementMap.put(c,classElement);
+            });
+            diagram.getRelations().forEach(r -> {
+                Node classFrom = elementMap.get(r.getFrom());
+                Node classTo = elementMap.get(r.getTo());
+                Node relation = RelationElementBuilder.constructRelation(classFrom,classTo,r.getType());
+                editSpace.getChildren().add(relation);
+            });
         }
     }
 
