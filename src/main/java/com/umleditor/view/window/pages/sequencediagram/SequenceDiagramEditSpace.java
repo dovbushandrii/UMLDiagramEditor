@@ -12,14 +12,15 @@ public class SequenceDiagramEditSpace implements DiagramEditSpace {
 
     public SequenceDiagramEditSpace(UMLDiagram diagram) {
         if (diagram == null || diagram instanceof UMLSequenceDiagram) {
-            this.editSpace = constructNewEditSpace((UMLSequenceDiagram) diagram);
+            this.editSpace = constructNewEditSpace();
+            updateCurrentEditSpace((UMLSequenceDiagram) diagram);
         } else {
             throw new IllegalArgumentException("UMLDiagram is not Class Diagram");
         }
     }
 
     @Override
-    public Parent getEditSpace() {
+    public Pane getEditSpace() {
         return this.editSpace;
     }
 
@@ -32,7 +33,7 @@ public class SequenceDiagramEditSpace implements DiagramEditSpace {
         }
     }
 
-    private Pane constructNewEditSpace(UMLSequenceDiagram diagram) {
+    private Pane constructNewEditSpace() {
         return null;
     }
 

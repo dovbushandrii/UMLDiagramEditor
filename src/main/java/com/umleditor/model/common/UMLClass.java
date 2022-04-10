@@ -26,11 +26,19 @@ public class UMLClass extends UMLElement {
         this.fields = fields;
     }
 
+    public void addField(UMLClassAttribute field) {
+        this.fields.add(field);
+    }
+
     public List<UMLClassMethod> getMethods() {
         return this.methods;
     }
 
     public void setMethods(List<UMLClassMethod> methods) {
         this.methods = methods;
+    }
+
+    public void addMethod(UMLClassMethod method) {
+        this.methods.add(method);
     }
 }

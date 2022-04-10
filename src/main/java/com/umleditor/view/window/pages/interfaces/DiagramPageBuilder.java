@@ -1,8 +1,8 @@
 package com.umleditor.view.window.pages.interfaces;
 
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
-import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 
 public interface DiagramPageBuilder {
-    Parent build(DiagramPageController controller);
+    Pane build(DiagramPageController controller);
 }

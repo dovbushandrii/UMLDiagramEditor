@@ -7,6 +7,7 @@ import com.umleditor.view.window.pages.interfaces.PrimitivePageBuilder;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class MainMenuPageBuilder implements PrimitivePageBuilder {
@@ -39,7 +40,7 @@ public class MainMenuPageBuilder implements PrimitivePageBuilder {
     }
 
     @Override
-    public Parent build() {
+    public Pane build() {
         VBox root = new VBox();
         HBox menuBar = new HBox();
 

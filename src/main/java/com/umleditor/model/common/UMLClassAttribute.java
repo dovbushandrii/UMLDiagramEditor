@@ -7,6 +7,16 @@ public class UMLClassAttribute extends UMLElement {
     private UMLElementModifier modifier;
     protected String type;
 
+    public UMLClassAttribute() {}
+
+    public UMLClassAttribute(String name,
+                             UMLElementModifier modifier,
+                             String type) {
+        super.setName(name);
+        setModifier(modifier);
+        setType(type);
+    }
+
     public UMLElementModifier getModifier() {
         return this.modifier;
     }

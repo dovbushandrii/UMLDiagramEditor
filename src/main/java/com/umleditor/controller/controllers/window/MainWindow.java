@@ -3,9 +3,11 @@ package com.umleditor.controller.controllers.window;
 import com.umleditor.context.AppContext;
 import com.umleditor.controller.enums.AppPage;
 import com.umleditor.view.window.anchor.AnchorFrameBuilder;
+import com.umleditor.view.window.pages.interfaces.Shortcuts;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.util.HashMap;
@@ -13,34 +15,52 @@ import java.util.Map;
 
 public class MainWindow {
 
-    private final static double defaultHeight = 600.0;
-    private final static double defaultWidth = 800.0;
-
     private static AnchorPane root;
-    private final static Map<AppPage, Parent> grid = new HashMap<>();
+    private final static Map<AppPage, Pane> grid = new HashMap<>();
     private static Stage primaryStage = null;
 
     private static AppPage currentPage = AppPage.MAIN_MENU;
 
     private static void loadLayouts() {
-        Map<AppPage, Parent> diagramPages = AppContext.getDiagramPages();
+        Map<AppPage, Pane> diagramPages = AppContext.getDiagramPages();
         diagramPages.forEach((k, v) -> grid.put(k, v));
 
-        Map<AppPage, Parent> defaultPages = AppContext.getPrimitivePages();
+        Map<AppPage, Pane> defaultPages = AppContext.getPrimitivePages();
         defaultPages.forEach((k, v) -> grid.put(k, v));
+    }
+
+    private static void bindToStageSize() {
+        grid.values().forEach(p -> {
+            Shortcuts.bindWidth(p,root);
+            Shortcuts.bindHeight(p,root);
+        });
     }
 
     public static void start(Stage stage) {
         // Frame for Pages
         root = AnchorFrameBuilder.buildAnchor();
+        Shortcuts.bindWidth(root,stage);
+        Shortcuts.bindHeight(root,stage);
+
         primaryStage = stage;
 
         loadLayouts();
 
+        bindToStageSize();
+
         // Set Primary Page
         root.getChildren().add(grid.get(currentPage));
         primaryStage.setTitle(currentPage.getStageTitle());
-        Scene scene = new Scene(root, defaultWidth, defaultHeight);
+        Scene scene = new Scene(root,
+                Double.parseDouble(AppContext.getProperty("window-default-width")),
+                Double.parseDouble(AppContext.getProperty("window-default-height")));
+
+        primaryStage.setMinWidth(
+                Double.parseDouble(AppContext.getProperty("window-min-width"))
+        );
+        primaryStage.setMinHeight(
+                Double.parseDouble(AppContext.getProperty("window-min-height"))
+        );
 
         // Set given Stage
         primaryStage.setScene(scene);

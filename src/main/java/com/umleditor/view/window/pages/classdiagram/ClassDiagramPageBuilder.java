@@ -7,9 +7,10 @@ import com.umleditor.controller.enums.AppPage;
 import com.umleditor.model.common.interfaces.UMLDiagram;
 import com.umleditor.view.window.pages.interfaces.DiagramEditSpace;
 import com.umleditor.view.window.pages.interfaces.DiagramPageBuilder;
-import javafx.scene.Parent;
+import com.umleditor.view.window.pages.interfaces.Shortcuts;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class ClassDiagramPageBuilder implements DiagramPageBuilder {
@@ -47,20 +48,27 @@ public class ClassDiagramPageBuilder implements DiagramPageBuilder {
     }
 
     @Override
-    public Parent build(DiagramPageController controller) {
+    public Pane build(DiagramPageController controller) {
         diagramPageController = controller;
 
         DiagramEditSpace editSpace = new ClassDiagramEditSpace(controller.getDiagram());
         diagramPageController.setEditSpace(editSpace);
 
         VBox root = new VBox();
+
         HBox menuBar = new HBox();
+        Shortcuts.bindWidth(menuBar, root);
+        menuBar.setStyle("-fx-background-color: #9d9dcd");
 
         menuBar.getChildren().add(backButton());
         menuBar.getChildren().add(openButton());
         menuBar.getChildren().add(saveButton());
 
         root.getChildren().add(menuBar);
+
+        Pane editSpacePane = editSpace.getEditSpace();
+        Shortcuts.bindWidth(editSpacePane, root);
+        Shortcuts.bindHeight(editSpacePane, root);
         root.getChildren().add(editSpace.getEditSpace());
 
         return root;

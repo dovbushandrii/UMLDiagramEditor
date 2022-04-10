@@ -25,9 +25,13 @@ public class AppConfig {
         AppContext.addPrimitivePageAssociation(AppPage.MAIN_MENU, MainMenuPageBuilder.class);
     }
 
+    private static void loadProperites() throws Exception {
+        AppContext.loadPropertiesFrom("src/main/resources/application.properties");
+    }
 
-    public static void initializeContext() throws ClassNotFoundException {
+    public static void initializeContext() throws Exception {
         addDiagramPageAssociations();
         addPrimitivePageAssociations();
+        loadProperites();
     }
 }

@@ -1,7 +1,7 @@
 package com.umleditor.view.window.pages.interfaces;
 
-import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
 
 public interface PrimitivePageBuilder {
-    Parent build();
+    Pane build();
 }
