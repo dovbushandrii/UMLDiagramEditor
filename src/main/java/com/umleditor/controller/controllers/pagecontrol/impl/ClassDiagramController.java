@@ -1,18 +1,20 @@
 package com.umleditor.controller.controllers.pagecontrol.impl;
 
-import com.umleditor.controller.controllers.pagecontrol.annotations.PageController;
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
 import com.umleditor.model.common.interfaces.UMLDiagram;
-import javafx.scene.Parent;
+import com.umleditor.view.window.pages.interfaces.DiagramEditSpace;
 
-@PageController
 public class ClassDiagramController implements DiagramPageController {
 
     private UMLDiagram loadedDiagram = null;
+    private DiagramEditSpace editSpace = null;
 
     @Override
     public void loadDiagram(UMLDiagram diagram) {
         this.loadedDiagram = diagram;
+        if(editSpace != null) {
+            editSpace.updateEditSpace(diagram);
+        }
     }
 
     @Override
@@ -21,7 +23,7 @@ public class ClassDiagramController implements DiagramPageController {
     }
 
     @Override
-    public void setEditSpace(Parent parent) {
-
+    public void setEditSpace(DiagramEditSpace editSpace) {
+        this.editSpace = editSpace;
     }
 }

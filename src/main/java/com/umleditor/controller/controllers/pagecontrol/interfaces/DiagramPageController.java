@@ -1,10 +1,10 @@
 package com.umleditor.controller.controllers.pagecontrol.interfaces;
 
 import com.umleditor.model.common.interfaces.UMLDiagram;
-import javafx.scene.Parent;
+import com.umleditor.view.window.pages.interfaces.DiagramEditSpace;
 
 public interface DiagramPageController {
     void loadDiagram(UMLDiagram diagram);
     UMLDiagram getDiagram();
-    void setEditSpace(Parent parent);
+    void setEditSpace(DiagramEditSpace editSpace);
 }

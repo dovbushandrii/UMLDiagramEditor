@@ -1,19 +1,22 @@
-package com.umleditor.view.window.classdiagram;
+package com.umleditor.view.window.pages.classdiagram;
 
 import com.umleditor.controller.controllers.diagramload.DiagramLoadController;
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
 import com.umleditor.controller.controllers.window.MainWindow;
 import com.umleditor.controller.enums.AppPage;
 import com.umleditor.model.common.interfaces.UMLDiagram;
+import com.umleditor.view.window.pages.interfaces.DiagramEditSpace;
+import com.umleditor.view.window.pages.interfaces.DiagramPageBuilder;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class ClassDiagramPageBuilder {
+public class ClassDiagramPageBuilder implements DiagramPageBuilder {
 
-    private static DiagramPageController diagramPageController;
+    private DiagramPageController diagramPageController = null;
 
-    private static Button saveButton() {
+    private Button saveButton() {
         Button button = new Button();
         button.setText("Save File");
         button.setOnAction(event -> {
@@ -25,7 +28,7 @@ public class ClassDiagramPageBuilder {
         return button;
     }
 
-    private static Button openButton() {
+    private Button openButton() {
         Button button = new Button();
         button.setText("Open File");
         button.setOnAction(event -> {
@@ -34,7 +37,7 @@ public class ClassDiagramPageBuilder {
         return button;
     }
 
-    private static Button backButton() {
+    private Button backButton() {
         Button button = new Button();
         button.setText("Back");
         button.setOnAction(event -> {
@@ -43,14 +46,22 @@ public class ClassDiagramPageBuilder {
         return button;
     }
 
-    public static Parent buildPage(DiagramPageController controller) {
+    @Override
+    public Parent build(DiagramPageController controller) {
         diagramPageController = controller;
 
-        VBox root = new VBox();
+        DiagramEditSpace editSpace = new ClassDiagramEditSpace(controller.getDiagram());
+        diagramPageController.setEditSpace(editSpace);
 
-        root.getChildren().add(backButton());
-        root.getChildren().add(openButton());
-        root.getChildren().add(saveButton());
+        VBox root = new VBox();
+        HBox menuBar = new HBox();
+
+        menuBar.getChildren().add(backButton());
+        menuBar.getChildren().add(openButton());
+        menuBar.getChildren().add(saveButton());
+
+        root.getChildren().add(menuBar);
+        root.getChildren().add(editSpace.getEditSpace());
 
         return root;
     }

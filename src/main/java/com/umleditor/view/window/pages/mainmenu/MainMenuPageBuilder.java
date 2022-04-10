@@ -1,15 +1,17 @@
-package com.umleditor.view.window.main;
+package com.umleditor.view.window.pages.mainmenu;
 
 import com.umleditor.controller.controllers.diagramload.DiagramLoadController;
 import com.umleditor.controller.controllers.window.MainWindow;
 import com.umleditor.controller.enums.AppPage;
+import com.umleditor.view.window.pages.interfaces.PrimitivePageBuilder;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class MainMenuPageBuilder {
+public class MainMenuPageBuilder implements PrimitivePageBuilder {
 
-    private static Button openButton() {
+    private Button openButton() {
         Button button = new Button();
         button.setText("Open File");
         button.setOnAction(event ->{
@@ -18,7 +20,7 @@ public class MainMenuPageBuilder {
         return button;
     }
 
-    private static Button classDiagramButton() {
+    private Button classDiagramButton() {
         Button button = new Button();
         button.setText("Class Diagram Edit");
         button.setOnAction(event ->{
@@ -27,7 +29,7 @@ public class MainMenuPageBuilder {
         return button;
     }
 
-    private static Button sequenceDiagramButton() {
+    private Button sequenceDiagramButton() {
         Button button = new Button();
         button.setText("Sequence Diagram Edit");
         button.setOnAction(event ->{
@@ -36,12 +38,16 @@ public class MainMenuPageBuilder {
         return button;
     }
 
-    public static Parent buildPage() {
+    @Override
+    public Parent build() {
         VBox root = new VBox();
+        HBox menuBar = new HBox();
 
-        root.getChildren().add(openButton());
-        root.getChildren().add(classDiagramButton());
-        root.getChildren().add(sequenceDiagramButton());
+        menuBar.getChildren().add(openButton());
+        menuBar.getChildren().add(classDiagramButton());
+        menuBar.getChildren().add(sequenceDiagramButton());
+
+        root.getChildren().add(menuBar);
 
         return root;
     }

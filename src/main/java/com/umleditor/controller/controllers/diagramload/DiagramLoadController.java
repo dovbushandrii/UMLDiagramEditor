@@ -1,6 +1,6 @@
 package com.umleditor.controller.controllers.diagramload;
 
-import com.umleditor.controller.controllers.context.AppContext;
+import com.umleditor.context.AppContext;
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
 import com.umleditor.controller.controllers.window.MainWindow;
 import com.umleditor.controller.enums.AppPage;
@@ -16,9 +16,8 @@ public class DiagramLoadController {
             UMLDiagram diagram = FileManager.openDiagramFile();
             if (diagram != null) {
                 // Get mapped to diagram page from context
-                AppPage diagramPage = AppContext.getPageByDiagram(diagram.getClass());
-                // Get diagram page controller from context
-                DiagramPageController controller = (DiagramPageController) AppContext.getPageController(diagramPage);
+                AppPage diagramPage = AppContext.getPageByDiagramClass(diagram.getClass());
+                DiagramPageController controller = AppContext.getControllerByDiagramClass(diagram.getClass());
 
                 controller.loadDiagram(diagram);
                 MainWindow.setPage(diagramPage);

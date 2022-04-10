@@ -1,5 +1,6 @@
 package com.umleditor;
 
+import com.umleditor.context.AppConfig;
 import com.umleditor.controller.controllers.window.MainWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,6 +12,12 @@ public class AppRunner extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        MainWindow.start(primaryStage);
+        try {
+            AppConfig.initializeContext();
+            MainWindow.start(primaryStage);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
