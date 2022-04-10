@@ -1,17 +1,8 @@
 package com.umleditor.controller.controllers.window;
 
-import com.umleditor.controller.controllers.context.AppContext;
-import com.umleditor.controller.controllers.pagecontrol.impl.ClassDiagramController;
-import com.umleditor.controller.controllers.pagecontrol.impl.MainMenuController;
-import com.umleditor.controller.controllers.pagecontrol.impl.SequenceDiagramController;
-import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
+import com.umleditor.context.AppContext;
 import com.umleditor.controller.enums.AppPage;
-import com.umleditor.model.classdiagram.UMLClassDiagram;
-import com.umleditor.model.sequencediagram.UMLSequenceDiagram;
 import com.umleditor.view.window.anchor.AnchorFrameBuilder;
-import com.umleditor.view.window.classdiagram.ClassDiagramPageBuilder;
-import com.umleditor.view.window.main.MainMenuPageBuilder;
-import com.umleditor.view.window.sequencediagram.SequenceDiagramPageBuilder;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -31,48 +22,29 @@ public class MainWindow {
 
     private static AppPage currentPage = AppPage.MAIN_MENU;
 
-    private static void prepareContext() {
-        AppContext.addPageController(AppPage.MAIN_MENU, new MainMenuController());
-        AppContext.addPageController(AppPage.CLASS_DIAGRAM, new ClassDiagramController());
-        AppContext.addPageController(AppPage.SEQUENCE_DIAGRAM, new SequenceDiagramController());
-
-        AppContext.mapPageToDiagram(AppPage.CLASS_DIAGRAM, UMLClassDiagram.class);
-        AppContext.mapPageToDiagram(AppPage.SEQUENCE_DIAGRAM, UMLSequenceDiagram.class);
-    }
-
     private static void loadLayouts() {
-        grid.put(AppPage.MAIN_MENU, MainMenuPageBuilder.buildPage());
-        grid.put(AppPage.CLASS_DIAGRAM,
-                ClassDiagramPageBuilder.buildPage(
-                        (DiagramPageController) AppContext.getPageController(AppPage.CLASS_DIAGRAM)
-                ));
-        grid.put(AppPage.SEQUENCE_DIAGRAM,
-                SequenceDiagramPageBuilder.buildPage(
-                        (DiagramPageController) AppContext.getPageController(AppPage.SEQUENCE_DIAGRAM)
-                ));
+        Map<AppPage, Parent> diagramPages = AppContext.getDiagramPages();
+        diagramPages.forEach((k, v) -> grid.put(k, v));
+
+        Map<AppPage, Parent> defaultPages = AppContext.getPrimitivePages();
+        defaultPages.forEach((k, v) -> grid.put(k, v));
     }
 
     public static void start(Stage stage) {
-        try {
-            // Frame for Pages
-            root = AnchorFrameBuilder.buildAnchor();
-            primaryStage = stage;
+        // Frame for Pages
+        root = AnchorFrameBuilder.buildAnchor();
+        primaryStage = stage;
 
-            prepareContext();
-            loadLayouts();
+        loadLayouts();
 
-            // Set Primary Page
-            root.getChildren().add(grid.get(currentPage));
-            primaryStage.setTitle(currentPage.getStageTitle());
-            Scene scene = new Scene(root, defaultWidth, defaultHeight);
+        // Set Primary Page
+        root.getChildren().add(grid.get(currentPage));
+        primaryStage.setTitle(currentPage.getStageTitle());
+        Scene scene = new Scene(root, defaultWidth, defaultHeight);
 
-            // Set given Stage
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        // Set given Stage
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
     public static Parent getPage(AppPage page) {
@@ -87,7 +59,7 @@ public class MainWindow {
     }
 
     public static void setWindowTitle(String title) {
-        if(primaryStage != null) {
+        if (primaryStage != null) {
             primaryStage.setTitle(title);
         }
     }
