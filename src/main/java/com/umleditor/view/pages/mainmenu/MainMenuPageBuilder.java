@@ -1,10 +1,15 @@
-package com.umleditor.view.window.pages.mainmenu;
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file MainMenuPageBuilder.java
+ */
+package com.umleditor.view.pages.mainmenu;
 
 import com.umleditor.controller.controllers.diagramload.DiagramLoadController;
 import com.umleditor.controller.controllers.window.MainWindow;
 import com.umleditor.controller.enums.AppPage;
-import com.umleditor.view.window.pages.interfaces.PrimitivePageBuilder;
-import javafx.scene.Parent;
+import com.umleditor.view.pages.interfaces.PrimitivePageBuilder;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;

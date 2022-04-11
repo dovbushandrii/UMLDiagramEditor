@@ -1,3 +1,9 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file UMLClassDiagram.java
+ */
 package com.umleditor.model.classdiagram;
 
 import com.umleditor.model.classdiagram.enums.UMLCDRelationType;
@@ -13,6 +19,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Class Diagram implementation.
+ * Contains UMLClasses and UMLCDRelations between them.
+ * Controls that class names are unique.
+ */
+//TODO: Connect with Sequence Diagrams by Project Class
 public class UMLClassDiagram extends UMLElement implements UMLDiagram {
 
     private String name;

@@ -1,3 +1,9 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file UMLClassMethod.java
+ */
 package com.umleditor.model.common;
 
 import com.umleditor.model.common.enums.UMLElementModifier;
@@ -5,6 +11,9 @@ import com.umleditor.model.common.enums.UMLElementModifier;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * UML Class method data type
+ */
 public class UMLClassMethod extends UMLClassAttribute {
 
     private List<String> argumentTypes = new ArrayList<>();

@@ -1,3 +1,9 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file FileManager.java
+ */
 package com.umleditor.view.filemanager;
 
 import com.umleditor.model.common.interfaces.UMLDiagram;
@@ -7,10 +13,16 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * UI basic FileChooser implementation
+ * for UML Diagrams
+ */
 public class FileManager {
 
     private static FileChooser initializeOpenChooser() {
         FileChooser chooser = new FileChooser();
+        FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("UML file (*.uml)", "*.uml");
+        chooser.getExtensionFilters().add(ext1);
         chooser.setTitle("Open UML Diagram");
         return chooser;
     }
@@ -20,9 +32,7 @@ public class FileManager {
         chooser.setTitle("Save UML Diagram");
         chooser.setInitialFileName("my_diagram.uml");
         FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("UML file (*.uml)", "*.uml");
-        FileChooser.ExtensionFilter ext2 = new FileChooser.ExtensionFilter("BAT file (*.bat)", "*.bat");
         chooser.getExtensionFilters().add(ext1);
-        chooser.getExtensionFilters().add(ext2);
         return chooser;
     }
 

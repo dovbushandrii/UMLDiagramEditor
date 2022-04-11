@@ -1,10 +1,17 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file MainWindow.java
+ *
+ * @brief Main Window Pages Controller
+ */
 package com.umleditor.controller.controllers.window;
 
 import com.umleditor.context.AppContext;
 import com.umleditor.controller.enums.AppPage;
 import com.umleditor.view.window.anchor.AnchorFrameBuilder;
-import com.umleditor.view.window.pages.interfaces.Shortcuts;
-import javafx.scene.Parent;
+import com.umleditor.view.pages.interfaces.Shortcuts;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -13,8 +20,12 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Main Window controller.
+ * Allows to switch pages with its static methods.
+ * Gets a list of pages from Application Context.
+ */
 public class MainWindow {
-
     private static AnchorPane root;
     private final static Map<AppPage, Pane> grid = new HashMap<>();
     private static Stage primaryStage = null;
@@ -23,24 +34,24 @@ public class MainWindow {
 
     private static void loadLayouts() {
         Map<AppPage, Pane> diagramPages = AppContext.getDiagramPages();
-        diagramPages.forEach((k, v) -> grid.put(k, v));
+        diagramPages.forEach(grid::put);
 
         Map<AppPage, Pane> defaultPages = AppContext.getPrimitivePages();
-        defaultPages.forEach((k, v) -> grid.put(k, v));
+        defaultPages.forEach(grid::put);
     }
 
     private static void bindToStageSize() {
         grid.values().forEach(p -> {
-            Shortcuts.bindWidth(p,root);
-            Shortcuts.bindHeight(p,root);
+            Shortcuts.bindWidth(p, root);
+            Shortcuts.bindHeight(p, root);
         });
     }
 
     public static void start(Stage stage) {
         // Frame for Pages
-        root = AnchorFrameBuilder.buildAnchor();
-        Shortcuts.bindWidth(root,stage);
-        Shortcuts.bindHeight(root,stage);
+        root = new AnchorPane();
+        Shortcuts.bindWidth(root, stage);
+        Shortcuts.bindHeight(root, stage);
 
         primaryStage = stage;
 
@@ -67,20 +78,10 @@ public class MainWindow {
         primaryStage.show();
     }
 
-    public static Parent getPage(AppPage page) {
-        return grid.get(page);
-    }
-
     public static void setPage(AppPage newPage) {
         root.getChildren().remove(grid.get(currentPage));
         root.getChildren().add(grid.get(newPage));
         primaryStage.setTitle(newPage.getStageTitle());
         currentPage = newPage;
-    }
-
-    public static void setWindowTitle(String title) {
-        if (primaryStage != null) {
-            primaryStage.setTitle(title);
-        }
     }
 }

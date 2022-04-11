@@ -1,11 +1,18 @@
-package com.umleditor.view.window.pages.classdiagram;
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file ClassDiagramEditSpace.java
+ */
+package com.umleditor.view.pages.classdiagram;
 
 import com.umleditor.context.AppContext;
 import com.umleditor.model.classdiagram.UMLClassDiagram;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.interfaces.UMLDiagram;
-import com.umleditor.view.window.pages.interfaces.DiagramEditSpace;
-import com.umleditor.view.window.pages.interfaces.Shortcuts;
+import com.umleditor.view.pages.classdiagram.relations.RelationElementBuilder;
+import com.umleditor.view.pages.interfaces.DiagramEditSpace;
+import com.umleditor.view.pages.interfaces.Shortcuts;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -14,13 +21,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
+/**
+ * Class that control edit space for Class Diagram
+ */
 public class ClassDiagramEditSpace implements DiagramEditSpace {
 
     private final Pane editSpace;
+    private Pane editSpacePane;
     private UMLClassDiagram diagram;
 
     private double dragStartX;
@@ -59,7 +68,7 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
 
     private void constructEditMenu() {
         HBox editMenu = new HBox();
-        Shortcuts.bindWidth(editMenu,editSpace);
+        Shortcuts.bindWidth(editMenu, editSpace);
         editMenu.setStyle("-fx-background-color:" + AppContext.getProperty("edit-menu-color"));
 
         editMenu.getChildren().add(new Button("Add Class"));
@@ -72,9 +81,10 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
 
     private void constructEditSpace() {
         Pane editSpacePane = new Pane();
-        Shortcuts.bindWidth(editSpacePane,editSpace);
-        Shortcuts.bindHeight(editSpacePane,editSpace);
+        Shortcuts.bindWidth(editSpacePane, editSpace);
+        Shortcuts.bindHeight(editSpacePane, editSpace);
 
+        this.editSpacePane = editSpacePane;
         editSpace.getChildren().add(editSpacePane);
     }
 
@@ -89,18 +99,19 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
                 Node classElement = ClassElementBuilder.constructClassElement(c);
                 makeDraggable(classElement);
                 editSpace.getChildren().add(classElement);
-                elementMap.put(c,classElement);
+                elementMap.put(c, classElement);
             });
             diagram.getRelations().forEach(r -> {
                 Node classFrom = elementMap.get(r.getFrom());
                 Node classTo = elementMap.get(r.getTo());
-                Node relation = RelationElementBuilder.constructRelation(classFrom,classTo,r.getType());
+                Node relation = RelationElementBuilder.constructRelation(classFrom, classTo, r.getType());
                 editSpace.getChildren().add(relation);
             });
         }
     }
 
     private void makeDraggable(Node node) {
+        final Pane edSpace = this.editSpacePane;
         node.setOnMousePressed(e -> {
             dragStartX = node.getLayoutX() - e.getSceneX();
             dragStartY = node.getLayoutY() - e.getSceneY();
@@ -111,10 +122,28 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
             node.setCursor(Cursor.HAND);
         });
         node.setOnMouseDragged(e -> {
-            node.setLayoutX(e.getSceneX() + dragStartX);
-            node.setLayoutY(e.getSceneY() + dragStartY);
+            double newPosX = e.getSceneX() + dragStartX;
+            double newPosY = e.getSceneY() + dragStartY;
+            if(isInXBorders(node,edSpace,newPosX)) {
+                node.setLayoutX(e.getSceneX() + dragStartX);
+            }
+            if(isInYBorders(node,edSpace,newPosY)) {
+                node.setLayoutY(e.getSceneY() + dragStartY);
+            }
         });
     }
 
+    private boolean isInXBorders(Node node, Pane pane, double newPos) {
+        double paneWidth = pane.getWidth();
+        double nodeWidth = node.getBoundsInParent().getWidth();
+        double maxX = paneWidth - nodeWidth;
+        return (newPos > 0 && newPos < maxX);
+    }
 
+    private boolean isInYBorders(Node node, Pane pane, double newPos) {
+        double paneHeight = pane.getHeight();
+        double nodeHeight = node.getBoundsInParent().getHeight();
+        double maxY = paneHeight - nodeHeight;
+        return (newPos > 0 && newPos < maxY);
+    }
 }

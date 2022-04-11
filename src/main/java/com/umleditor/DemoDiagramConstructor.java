@@ -17,14 +17,17 @@ public class DemoDiagramConstructor {
         diagram.setName("Dog-Owner-Diagram");
         UMLClass dog = constructDog();
         UMLClass owner = constructOwner();
+        UMLClass food = constructFood();
         UMLClass object = abstractClass();
         diagram.addClass(dog);
         diagram.addClass(owner);
+        diagram.addClass(food);
         diagram.addClass(object);
 
         diagram.addRelation(dog,owner, UMLCDRelationType.ASSOCIATION);
-        diagram.addRelation(owner,object, UMLCDRelationType.ASSOCIATION);
-        diagram.addRelation(object,dog, UMLCDRelationType.ASSOCIATION);
+        diagram.addRelation(owner,object, UMLCDRelationType.AGGREGATION);
+        diagram.addRelation(object,food, UMLCDRelationType.COMPOSITION);
+        diagram.addRelation(food,dog, UMLCDRelationType.GENERALIZATION);
 
         return diagram;
     }
@@ -62,6 +65,57 @@ public class DemoDiagramConstructor {
         ));
         clazz.addMethod(new UMLClassMethod(
                 "setName",
+                Arrays.asList("string"),
+                UMLElementModifier.PUBLIC,
+                "void"
+        ));
+        return clazz;
+    }
+
+    private static UMLClass constructFood() {
+        UMLClass clazz = new UMLClass();
+        clazz.setName("Food");
+        clazz.addField(new UMLClassAttribute(
+                "food_id",
+                UMLElementModifier.PRIVATE,
+                "int"
+        ));
+        clazz.addField(new UMLClassAttribute(
+                "name",
+                UMLElementModifier.PRIVATE,
+                "string"
+        ));
+        clazz.addField(new UMLClassAttribute(
+                "weight",
+                UMLElementModifier.PRIVATE,
+                "double"
+        ));
+        clazz.addMethod(new UMLClassMethod(
+                "getId",
+                null,
+                UMLElementModifier.PUBLIC,
+                "int"
+        ));
+        clazz.addMethod(new UMLClassMethod(
+                "getName",
+                null,
+                UMLElementModifier.PUBLIC,
+                "string"
+        ));
+        clazz.addMethod(new UMLClassMethod(
+                "setName",
+                Arrays.asList("string"),
+                UMLElementModifier.PUBLIC,
+                "void"
+        ));
+        clazz.addMethod(new UMLClassMethod(
+                "getWeight",
+                null,
+                UMLElementModifier.PUBLIC,
+                "double"
+        ));
+        clazz.addMethod(new UMLClassMethod(
+                "setWeight",
                 Arrays.asList("string"),
                 UMLElementModifier.PUBLIC,
                 "void"

@@ -1,11 +1,20 @@
-package com.umleditor.view.window.pages.sequencediagram;
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file SequenceDiagramEditSpace.java
+ */
+package com.umleditor.view.pages.sequencediagram;
 
 import com.umleditor.model.common.interfaces.UMLDiagram;
 import com.umleditor.model.sequencediagram.UMLSequenceDiagram;
-import com.umleditor.view.window.pages.interfaces.DiagramEditSpace;
-import javafx.scene.Parent;
+import com.umleditor.view.pages.interfaces.DiagramEditSpace;
 import javafx.scene.layout.Pane;
 
+/**
+ * Class that control edit space for Class Diagram
+ */
+//TODO: Implement
 public class SequenceDiagramEditSpace implements DiagramEditSpace {
 
     private final Pane editSpace;

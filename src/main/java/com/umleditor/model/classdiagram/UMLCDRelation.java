@@ -1,9 +1,19 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file UMLCDRelation.java
+ */
 package com.umleditor.model.classdiagram;
 
 import com.umleditor.model.classdiagram.enums.UMLCDRelationType;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.UMLElement;
 
+/**
+ * UML Class Diagram Relation.
+ * Connects 2 classes, based on Relation Type
+ */
 public class UMLCDRelation extends UMLElement {
 
     private UMLClass from;

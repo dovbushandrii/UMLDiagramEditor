@@ -1,7 +1,16 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file UMLClassAttribute.java
+ */
 package com.umleditor.model.common;
 
 import com.umleditor.model.common.enums.UMLElementModifier;
 
+/**
+ * UML Class Attribute data type
+ */
 public class UMLClassAttribute extends UMLElement {
 
     private UMLElementModifier modifier;

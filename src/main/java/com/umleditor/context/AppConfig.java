@@ -1,3 +1,10 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file AppConfig.java
+ */
+
 package com.umleditor.context;
 
 import com.umleditor.controller.controllers.pagecontrol.impl.ClassDiagramController;
@@ -5,10 +12,14 @@ import com.umleditor.controller.controllers.pagecontrol.impl.SequenceDiagramCont
 import com.umleditor.controller.enums.AppPage;
 import com.umleditor.model.classdiagram.UMLClassDiagram;
 import com.umleditor.model.sequencediagram.UMLSequenceDiagram;
-import com.umleditor.view.window.pages.classdiagram.ClassDiagramPageBuilder;
-import com.umleditor.view.window.pages.mainmenu.MainMenuPageBuilder;
-import com.umleditor.view.window.pages.sequencediagram.SequenceDiagramPageBuilder;
+import com.umleditor.view.pages.classdiagram.ClassDiagramPageBuilder;
+import com.umleditor.view.pages.mainmenu.MainMenuPageBuilder;
+import com.umleditor.view.pages.sequencediagram.SequenceDiagramPageBuilder;
 
+/**
+ * Application start config class
+ * Has encoded start mappings and properties files.
+ */
 public class AppConfig {
     private static void addDiagramPageAssociations() throws ClassNotFoundException {
         AppContext.addDiagramPageAssociation(AppPage.CLASS_DIAGRAM,

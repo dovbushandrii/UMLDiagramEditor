@@ -1,3 +1,9 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file DiagramDAO.java
+ */
 package com.umleditor.model.daos;
 
 import com.umleditor.model.common.interfaces.UMLDiagram;
@@ -6,6 +12,10 @@ import com.umleditor.model.daos.exceptions.DiagramFileWriteException;
 
 import java.io.*;
 
+/**
+ * Data access object for UMLDiagrams.
+ * Provides save and load functionality.
+ */
 public class DiagramDAO {
     public static UMLDiagram loadDiagram(File loadFrom) throws IOException {
         UMLDiagram result;
@@ -13,11 +23,8 @@ public class DiagramDAO {
              ObjectInputStream ois = new ObjectInputStream(fis)) {
             result = (UMLDiagram) ois.readObject();
         }
-        catch (ClassCastException ex) {
-            throw new DiagramFileReadException("File does not contain UML Diagram or it is broken");
-        }
         catch (Exception ex) {
-            throw new DiagramFileReadException(ex.getMessage());
+            throw new DiagramFileReadException("File does not contain UML Diagram or it is broken");
         }
         return result;
     }

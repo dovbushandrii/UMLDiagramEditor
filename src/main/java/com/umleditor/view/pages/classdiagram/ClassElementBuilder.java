@@ -1,10 +1,16 @@
-package com.umleditor.view.window.pages.classdiagram;
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file ClassElementBuilder.java
+ */
+package com.umleditor.view.pages.classdiagram;
 
 import com.umleditor.context.AppContext;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.UMLClassAttribute;
 import com.umleditor.model.common.UMLClassMethod;
-import com.umleditor.view.window.pages.interfaces.Shortcuts;
+import com.umleditor.view.pages.interfaces.Shortcuts;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -14,6 +20,9 @@ import org.codehaus.plexus.util.StringUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Builder for Class elements on Class Diagram
+ */
 public class ClassElementBuilder {
 
     public static Pane constructClassElement(UMLClass umlClass) {

@@ -1,12 +1,16 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file AppContext.java
+ */
 package com.umleditor.context;
 
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
 import com.umleditor.controller.enums.AppPage;
 import com.umleditor.model.common.interfaces.UMLDiagram;
-import com.umleditor.view.window.pages.interfaces.PrimitivePageBuilder;
-import com.umleditor.view.window.pages.interfaces.DiagramPageBuilder;
-import javafx.scene.Node;
-import javafx.scene.Parent;
+import com.umleditor.view.pages.interfaces.DiagramPageBuilder;
+import com.umleditor.view.pages.interfaces.PrimitivePageBuilder;
 import javafx.scene.layout.Pane;
 
 import java.io.FileReader;
@@ -14,6 +18,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * Application Context Class.
+ * Contains loaded properties and
+ * page name to builder map for primitive pages,
+ * and page name to diagram&controller&builder association map.
+ */
 public class AppContext {
 
     private static class DiagramAssociation {
@@ -26,10 +36,9 @@ public class AppContext {
                                    Class<? extends DiagramPageBuilder> pageBuilderClass) throws ClassNotFoundException {
             this.diagramClass = diagramClass;
             try {
-                this.controller= controllerClass.getDeclaredConstructor().newInstance();
+                this.controller = controllerClass.getDeclaredConstructor().newInstance();
                 this.pageBuilder = pageBuilderClass.getDeclaredConstructor().newInstance();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new ClassNotFoundException("AppContext initialization fail: " + ex.getMessage());
             }
         }
@@ -48,11 +57,10 @@ public class AppContext {
     }
 
     public static void addPrimitivePageAssociation(AppPage pageName,
-                                                   Class<? extends PrimitivePageBuilder> pageBuilder) throws ClassNotFoundException{
+                                                   Class<? extends PrimitivePageBuilder> pageBuilder) throws ClassNotFoundException {
         try {
             nameToPrimitivePageMap.put(pageName, pageBuilder.getDeclaredConstructor().newInstance());
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new ClassNotFoundException("AppContext initialization fail: " + ex.getMessage());
         }
     }

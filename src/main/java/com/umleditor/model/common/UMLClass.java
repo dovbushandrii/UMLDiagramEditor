@@ -1,9 +1,17 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file UMLClass.java
+ */
 package com.umleditor.model.common;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * UML Class data type
+ */
 public class UMLClass extends UMLElement {
 
     private boolean isAbstract = false;

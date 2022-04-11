@@ -1,21 +1,41 @@
-package com.umleditor.view.window.pages.classdiagram;
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file ClassDiagramPageBuilder.java
+ */
+package com.umleditor.view.pages.classdiagram;
 
 import com.umleditor.controller.controllers.diagramload.DiagramLoadController;
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
 import com.umleditor.controller.controllers.window.MainWindow;
 import com.umleditor.controller.enums.AppPage;
+import com.umleditor.model.classdiagram.UMLClassDiagram;
 import com.umleditor.model.common.interfaces.UMLDiagram;
-import com.umleditor.view.window.pages.interfaces.DiagramEditSpace;
-import com.umleditor.view.window.pages.interfaces.DiagramPageBuilder;
-import com.umleditor.view.window.pages.interfaces.Shortcuts;
+import com.umleditor.view.pages.interfaces.DiagramEditSpace;
+import com.umleditor.view.pages.interfaces.DiagramPageBuilder;
+import com.umleditor.view.pages.interfaces.Shortcuts;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Constructs page for Class Diagram editing
+ */
 public class ClassDiagramPageBuilder implements DiagramPageBuilder {
 
     private DiagramPageController diagramPageController = null;
+
+    private Button newButton() {
+        Button button = new Button();
+        button.setText("New");
+        button.setOnAction(event -> {
+            UMLDiagram diagram = new UMLClassDiagram();
+            diagramPageController.loadDiagram(diagram);
+        });
+        return button;
+    }
 
     private Button saveButton() {
         Button button = new Button();
@@ -61,6 +81,7 @@ public class ClassDiagramPageBuilder implements DiagramPageBuilder {
         menuBar.setStyle("-fx-background-color: #9d9dcd");
 
         menuBar.getChildren().add(backButton());
+        menuBar.getChildren().add(newButton());
         menuBar.getChildren().add(openButton());
         menuBar.getChildren().add(saveButton());
 

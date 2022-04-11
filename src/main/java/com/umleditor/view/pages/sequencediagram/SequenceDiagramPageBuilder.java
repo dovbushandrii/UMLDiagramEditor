@@ -1,13 +1,23 @@
-package com.umleditor.view.window.pages.sequencediagram;
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file SequenceDiagramPageBuilder.java
+ */
+package com.umleditor.view.pages.sequencediagram;
 
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
 import com.umleditor.controller.controllers.window.MainWindow;
 import com.umleditor.controller.enums.AppPage;
-import com.umleditor.view.window.pages.interfaces.DiagramPageBuilder;
+import com.umleditor.view.pages.interfaces.DiagramPageBuilder;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+/**
+ * Constructs page for Sequence Diagram editing
+ */
+//TODO: Implement
 public class SequenceDiagramPageBuilder implements DiagramPageBuilder {
     @Override
     public Pane build(DiagramPageController controller) {

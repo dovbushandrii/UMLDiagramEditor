@@ -1,9 +1,20 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file SequenceDiagramController.java
+ *
+ * @brief Controller for Sequence Diagram Edit Page
+ */
 package com.umleditor.controller.controllers.pagecontrol.impl;
 
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
 import com.umleditor.model.common.interfaces.UMLDiagram;
-import com.umleditor.view.window.pages.interfaces.DiagramEditSpace;
+import com.umleditor.view.pages.interfaces.DiagramEditSpace;
 
+/**
+ * Implementation of DiagramPageController for Sequence Diagrams
+ */
 public class SequenceDiagramController implements DiagramPageController {
     private UMLDiagram loadedDiagram = null;
     private DiagramEditSpace editSpace = null;

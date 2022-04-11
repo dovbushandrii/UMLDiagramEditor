@@ -1,9 +1,18 @@
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ *
+ * @file ClassDiagramController.java
+ */
 package com.umleditor.controller.controllers.pagecontrol.impl;
 
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
 import com.umleditor.model.common.interfaces.UMLDiagram;
-import com.umleditor.view.window.pages.interfaces.DiagramEditSpace;
+import com.umleditor.view.pages.interfaces.DiagramEditSpace;
 
+/**
+ * Implementation of DiagramPageController for Class Diagrams
+ */
 public class ClassDiagramController implements DiagramPageController {
 
     private UMLDiagram loadedDiagram = null;
@@ -12,7 +21,7 @@ public class ClassDiagramController implements DiagramPageController {
     @Override
     public void loadDiagram(UMLDiagram diagram) {
         this.loadedDiagram = diagram;
-        if(editSpace != null) {
+        if (editSpace != null) {
             editSpace.updateEditSpace(diagram);
         }
     }
