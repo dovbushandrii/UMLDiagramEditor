@@ -1,6 +1,5 @@
 package com.umleditor;
 
-import com.umleditor.model.classdiagram.UMLCDRelation;
 import com.umleditor.model.classdiagram.UMLClassDiagram;
 import com.umleditor.model.classdiagram.enums.UMLCDRelationType;
 import com.umleditor.model.common.UMLClass;

@@ -10,7 +10,6 @@ package com.umleditor.controller.controllers.window;
 
 import com.umleditor.context.AppContext;
 import com.umleditor.controller.enums.AppPage;
-import com.umleditor.view.window.anchor.AnchorFrameBuilder;
 import com.umleditor.view.pages.interfaces.Shortcuts;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;

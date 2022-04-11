@@ -37,7 +37,7 @@ public class AppConfig {
     }
 
     private static void loadProperites() throws Exception {
-        AppContext.loadPropertiesFrom("src/main/resources/application.properties");
+        AppContext.loadPropertiesFrom("application.properties");
     }
 
     public static void initializeContext() throws Exception {

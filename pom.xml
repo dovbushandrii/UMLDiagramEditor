@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.ija.umlui</groupId>
-    <artifactId>IJA_Project</artifactId>
+    <artifactId>ija-app</artifactId>
     <version>0.1</version>
 
     <properties>
@@ -13,13 +13,15 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <javafx.version>17.0.1</javafx.version>
         <javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
+        <project.build.directory>./build</project.build.directory>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.3.0</version>
+            <type>maven-plugin</type>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -29,16 +31,44 @@
     </dependencies>
 
     <build>
+        <outputDirectory>${project.basedir}/build</outputDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>${javafx.maven.plugin.version}</version>
                 <configuration>
-                    <mainClass>com.umleditor.AppRunner</mainClass>
+                    <mainClass>com.umleditor.MainRunner</mainClass>
                 </configuration>
-            </plugin><plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><configuration><source>8</source><target>8</target></configuration></plugin>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>./dest</outputDirectory>
+                            <finalName>ija-app</finalName>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer implementation=
+                                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.umleditor.MainRunner</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
 </project>

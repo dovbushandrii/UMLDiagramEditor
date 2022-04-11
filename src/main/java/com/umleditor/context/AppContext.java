@@ -14,6 +14,7 @@ import com.umleditor.view.pages.interfaces.PrimitivePageBuilder;
 import javafx.scene.layout.Pane;
 
 import java.io.FileReader;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -93,9 +94,13 @@ public class AppContext {
                 .orElse(null);
     }
 
-    public static void loadPropertiesFrom(String filename) throws Exception {
-        FileReader reader = new FileReader(filename);
-        properties.load(reader);
+    public static void loadPropertiesFrom(String fineName) throws Exception {
+        // The class loader that loaded the class
+        ClassLoader classLoader = AppContext.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(fineName);
+
+        //FileReader reader = new FileReader(fineName);
+        properties.load(inputStream);
     }
 
     public static String getProperty(String propName) {

@@ -1,5 +1,9 @@
-*.iml
 .idea/
 .out/
 target/
-*.bat
+build/
+dest/
+doc/
+data/
+*.uml
+*.iml
