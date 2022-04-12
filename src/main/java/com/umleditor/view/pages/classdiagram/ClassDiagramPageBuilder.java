@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file ClassDiagramPageBuilder.java
- */
 package com.umleditor.view.pages.classdiagram;
 
 import com.umleditor.controller.controllers.diagramload.DiagramLoadController;
@@ -21,7 +15,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
- * Constructs page for Class Diagram editing
+ * Constructs non-primitive page for Class Diagram editing
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class ClassDiagramPageBuilder implements DiagramPageBuilder {
 

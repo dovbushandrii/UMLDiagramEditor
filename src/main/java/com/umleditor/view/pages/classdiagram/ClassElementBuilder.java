@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file ClassElementBuilder.java
- */
 package com.umleditor.view.pages.classdiagram;
 
 import com.umleditor.context.AppContext;
@@ -22,6 +16,9 @@ import java.util.stream.Collectors;
 
 /**
  * Builder for Class elements on Class Diagram
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class ClassElementBuilder {
 
@@ -38,7 +35,6 @@ public class ClassElementBuilder {
         VBox attr = constructAttributesArea(umlClass);
         Shortcuts.bindWidth(attr, root);
         root.getChildren().add(attr);
-
 
         return root;
     }

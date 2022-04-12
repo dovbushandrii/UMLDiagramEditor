@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file RelationElementBuilder.java
- */
 package com.umleditor.view.pages.classdiagram.relations;
 
 import com.umleditor.model.classdiagram.enums.UMLCDRelationType;
@@ -12,6 +6,9 @@ import javafx.scene.Node;
 
 /**
  * Builder for relation "arrow" elements
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class RelationElementBuilder {
 
@@ -44,6 +41,9 @@ public class RelationElementBuilder {
         return arrow;
     }
 
+    /**
+     * Listener for line ends movements.
+     */
     public static void updateLine(Node classFrom, Node classTo, Arrow arrow) {
         double offsetX1 = classFrom.getBoundsInParent().getWidth() / 2;
         double offsetY1 = classFrom.getBoundsInParent().getHeight() / 2;
@@ -89,6 +89,12 @@ public class RelationElementBuilder {
         arrow.toBack();
     }
 
+    /**
+     * Converts degrees on 8 directions: N, NE, E, SE, S, SW, W, NW
+     * These 8 directions are: N -> TOP, E -> RIGHT, S -> BOTTOM, W -> LEFT
+     * @param degOrig Degrees calculated on window coordinates.
+     * @return Direction on screen.
+     */
     private static ArrowDirection getDirection(double degOrig) {
         double deg = 360 - degOrig - 22.5;
         while (deg < 0) deg += 360;
@@ -104,6 +110,10 @@ public class RelationElementBuilder {
 
     }
 
+    /**
+     *  Calculates angle on window coordinates of direction
+     *  between two nodes.
+     */
     private static double calculateObjectDirectionAngle(Node classFrom, Node classTo) {
         double x = classTo.getLayoutX() - classFrom.getLayoutX();
         double y = classTo.getLayoutY() - classFrom.getLayoutY();

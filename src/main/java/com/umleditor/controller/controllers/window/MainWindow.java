@@ -1,11 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file MainWindow.java
- *
- * @brief Main Window Pages Controller
- */
 package com.umleditor.controller.controllers.window;
 
 import com.umleditor.context.AppContext;
@@ -23,29 +15,48 @@ import java.util.Map;
  * Main Window controller.
  * Allows to switch pages with its static methods.
  * Gets a list of pages from Application Context.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class MainWindow {
+    /**
+     * Root node for all pages. Switching pages -> replacing child nodes of root
+     */
     private static AnchorPane root;
-    private final static Map<AppPage, Pane> grid = new HashMap<>();
+    /**
+     * Contains pre-built pages and their names
+     */
+    private final static Map<AppPage, Pane> pageMap = new HashMap<>();
     private static Stage primaryStage = null;
 
     private static AppPage currentPage = AppPage.MAIN_MENU;
 
+    /**
+     * Loads pages from Application Context
+     */
     private static void loadLayouts() {
         Map<AppPage, Pane> diagramPages = AppContext.getDiagramPages();
-        diagramPages.forEach(grid::put);
+        diagramPages.forEach(pageMap::put);
 
         Map<AppPage, Pane> defaultPages = AppContext.getPrimitivePages();
-        defaultPages.forEach(grid::put);
+        defaultPages.forEach(pageMap::put);
     }
 
+    /**
+     * Binds size of pages to size of window
+     */
     private static void bindToStageSize() {
-        grid.values().forEach(p -> {
+        pageMap.values().forEach(p -> {
             Shortcuts.bindWidth(p, root);
             Shortcuts.bindHeight(p, root);
         });
     }
 
+    /**
+     * Basic method to start application.
+     * Constructs window with pages.
+     */
     public static void start(Stage stage) {
         // Frame for Pages
         root = new AnchorPane();
@@ -59,7 +70,7 @@ public class MainWindow {
         bindToStageSize();
 
         // Set Primary Page
-        root.getChildren().add(grid.get(currentPage));
+        root.getChildren().add(pageMap.get(currentPage));
         primaryStage.setTitle(currentPage.getStageTitle());
         Scene scene = new Scene(root,
                 Double.parseDouble(AppContext.getProperty("window-default-width")),
@@ -77,9 +88,13 @@ public class MainWindow {
         primaryStage.show();
     }
 
+    /**
+     * Switches current page to newPage
+     * @param newPage Next page name
+     */
     public static void setPage(AppPage newPage) {
-        root.getChildren().remove(grid.get(currentPage));
-        root.getChildren().add(grid.get(newPage));
+        root.getChildren().remove(pageMap.get(currentPage));
+        root.getChildren().add(pageMap.get(newPage));
         primaryStage.setTitle(newPage.getStageTitle());
         currentPage = newPage;
     }

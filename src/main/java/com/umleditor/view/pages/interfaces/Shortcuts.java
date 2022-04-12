@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file Shortcuts.java
- */
 package com.umleditor.view.pages.interfaces;
 
 import javafx.scene.layout.Region;
@@ -11,6 +5,9 @@ import javafx.stage.Window;
 
 /**
  * Shortcuts for typical JavaFX procedures
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public interface Shortcuts {
 

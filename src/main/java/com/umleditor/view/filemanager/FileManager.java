@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file FileManager.java
- */
 package com.umleditor.view.filemanager;
 
 import com.umleditor.model.common.interfaces.UMLDiagram;
@@ -15,7 +9,10 @@ import java.io.IOException;
 
 /**
  * UI basic FileChooser implementation
- * for UML Diagrams
+ * for UML Diagrams. Constructs basic file chooser/saver window.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class FileManager {
 

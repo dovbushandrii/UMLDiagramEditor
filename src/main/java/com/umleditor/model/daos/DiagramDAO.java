@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file DiagramDAO.java
- */
 package com.umleditor.model.daos;
 
 import com.umleditor.model.common.interfaces.UMLDiagram;
@@ -13,8 +7,11 @@ import com.umleditor.model.daos.exceptions.DiagramFileWriteException;
 import java.io.*;
 
 /**
- * Data access object for UMLDiagrams.
+ * Data Access Object for UMLDiagrams class.
  * Provides save and load functionality.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class DiagramDAO {
     public static UMLDiagram loadDiagram(File loadFrom) throws IOException {

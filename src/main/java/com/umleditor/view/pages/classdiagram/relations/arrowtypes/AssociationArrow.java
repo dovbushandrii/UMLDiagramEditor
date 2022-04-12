@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file AssociationArrow.java
- */
 package com.umleditor.view.pages.classdiagram.relations.arrowtypes;
 
 import com.umleditor.context.AppContext;
@@ -11,7 +5,11 @@ import javafx.beans.InvalidationListener;
 import javafx.scene.shape.Line;
 
 /**
- * Element for Association-type Arrow
+ * Element for Association-type Arrow.
+ * Solid line and classic 'V' arrowhead on the end.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class AssociationArrow extends Arrow {
 

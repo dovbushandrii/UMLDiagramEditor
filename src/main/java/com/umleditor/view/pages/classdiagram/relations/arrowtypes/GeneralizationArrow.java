@@ -14,6 +14,10 @@ import javafx.scene.shape.Polygon;
 
 /**
  * Element for Generalization-type Arrow
+ * Solid line and white triangle on the end.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class GeneralizationArrow extends Arrow {
 

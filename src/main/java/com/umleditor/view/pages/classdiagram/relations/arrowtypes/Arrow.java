@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file Arrow.java
- */
 package com.umleditor.view.pages.classdiagram.relations.arrowtypes;
 
 import javafx.beans.property.DoubleProperty;
@@ -12,9 +6,11 @@ import javafx.scene.Node;
 import javafx.scene.shape.Line;
 
 /**
- * Arrow-type element is
- * element that is based on basic Line
- * endings of which can be binded.
+ * Arrow-type element is element that is based on basic Line.
+ * Endings of line can be binded to other properties.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class Arrow extends Group {
 

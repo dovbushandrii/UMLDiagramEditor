@@ -13,7 +13,6 @@ import com.umleditor.view.pages.interfaces.DiagramPageBuilder;
 import com.umleditor.view.pages.interfaces.PrimitivePageBuilder;
 import javafx.scene.layout.Pane;
 
-import java.io.FileReader;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +20,17 @@ import java.util.Properties;
 
 /**
  * Application Context Class.
- * Contains loaded properties and
- * page name to builder map for primitive pages,
+ * Contains loaded properties and page name to builder map for primitive pages,
  * and page name to diagram&controller&builder association map.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class AppContext {
 
+    /**
+     * Nested class to describe Digram<->Diagram Page Controller<->Page Builder association
+     */
     private static class DiagramAssociation {
         private final Class<? extends UMLDiagram> diagramClass;
         private final DiagramPageController controller;

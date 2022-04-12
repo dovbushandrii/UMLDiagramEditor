@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file ClassDiagramEditSpace.java
- */
 package com.umleditor.view.pages.classdiagram;
 
 import com.umleditor.context.AppContext;
@@ -25,6 +19,9 @@ import java.util.Map;
 
 /**
  * Class that control edit space for Class Diagram
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class ClassDiagramEditSpace implements DiagramEditSpace {
 
@@ -110,6 +107,10 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
         }
     }
 
+    /**
+     * Sets listeners to node that allows to drag it
+     * in between Edit Space borders
+     */
     private void makeDraggable(Node node) {
         final Pane edSpace = this.editSpacePane;
         node.setOnMousePressed(e -> {

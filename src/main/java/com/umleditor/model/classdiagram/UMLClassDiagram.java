@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file UMLClassDiagram.java
- */
 package com.umleditor.model.classdiagram;
 
 import com.umleditor.model.classdiagram.enums.UMLCDRelationType;
@@ -23,6 +17,9 @@ import java.util.stream.Collectors;
  * Class Diagram implementation.
  * Contains UMLClasses and UMLCDRelations between them.
  * Controls that class names are unique.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 //TODO: Connect with Sequence Diagrams by Project Class
 public class UMLClassDiagram extends UMLElement implements UMLDiagram {
@@ -39,6 +36,10 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
         return this.allRelations;
     }
 
+    /**
+     * Adds class element to diagram.
+     * If class with same name is defined on diagram, throws exception
+     */
     public void addClass(UMLClass newClass) {
         Optional<UMLClass> found = this.allClasses
                 .stream()
@@ -51,6 +52,10 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
         }
     }
 
+    /**
+     * Updates class element on diagram.
+     * If class with same name is not defined on diagram, throws exception
+     */
     public void updateClass(UMLClass newClass) {
         Optional<UMLClass> found = this.allClasses
                 .stream()
@@ -64,6 +69,10 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
         }
     }
 
+    /**
+     * Adds relation element to diagram.
+     * If relation with same pair of classes is defined, throws exception
+     */
     public void addRelation(UMLClass from, UMLClass to, UMLCDRelationType type) {
         Optional<UMLCDRelation> found = this.allRelations
                 .stream()

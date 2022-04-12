@@ -1,13 +1,9 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file UMLElementModifier.java
- */
 package com.umleditor.model.common.enums;
 
 /**
  * UML Attribute Modifiers
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public enum UMLElementModifier {
     PUBLIC("+"),

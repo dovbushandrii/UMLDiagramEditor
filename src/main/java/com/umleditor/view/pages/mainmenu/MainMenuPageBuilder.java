@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file MainMenuPageBuilder.java
- */
 package com.umleditor.view.pages.mainmenu;
 
 import com.umleditor.controller.controllers.diagramload.DiagramLoadController;
@@ -14,7 +8,15 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
+/**
+ * Builder for Main Menu Page.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ */
 public class MainMenuPageBuilder implements PrimitivePageBuilder {
 
     private Button openButton() {
@@ -44,6 +46,29 @@ public class MainMenuPageBuilder implements PrimitivePageBuilder {
         return button;
     }
 
+    private Text whatsImplementedText() {
+        Text text = new Text();
+        text.setText("What's implemented on 12 April:\n" +
+                "- You can open '*.uml' files with Class Diagram in it.\n" +
+                "- You can save '*.uml' files with Class Diagram in it.\n" +
+                "- You can view Class Diagram with draggable elements.\n" +
+                "- Example file is included: 'data/test_class_diagram.uml' at root folder\n");
+        text.setFont(Font.font(13));
+        return text;
+    }
+    private Text guideText() {
+        Text text = new Text();
+        text.setText("To open diagram file click 'Open' button from main menu or\n" +
+                "go to 'Class Diagram Edit' -> 'Open'.\n" +
+                "After the file is opened, drag class elements how you want.\n" +
+                "\n" +
+                "To save diagram click 'Save' button on Class Diagram Edit page.\n" +
+                "Click 'New' button on Class Diagram Edit page to remove previous diagram\n" +
+                "from edit space.");
+        text.setFont(Font.font(13));
+        return text;
+    }
+
     @Override
     public Pane build() {
         VBox root = new VBox();
@@ -54,6 +79,8 @@ public class MainMenuPageBuilder implements PrimitivePageBuilder {
         menuBar.getChildren().add(sequenceDiagramButton());
 
         root.getChildren().add(menuBar);
+        root.getChildren().add(whatsImplementedText());
+        root.getChildren().add(guideText());
 
         return root;
     }

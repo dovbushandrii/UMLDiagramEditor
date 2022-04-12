@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file AggregationArrow.java
- */
 package com.umleditor.view.pages.classdiagram.relations.arrowtypes;
 
 import com.umleditor.context.AppContext;
@@ -13,7 +7,11 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 /**
- * Element for Aggregation-type Arrow
+ * Element for Aggregation-type Arrow.
+ * Solid line with white diamond on the end.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class AggregationArrow extends Arrow {
 

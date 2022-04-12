@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file UMLClassMethod.java
- */
 package com.umleditor.model.common;
 
 import com.umleditor.model.common.enums.UMLElementModifier;
@@ -13,6 +7,9 @@ import java.util.List;
 
 /**
  * UML Class method data type
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class UMLClassMethod extends UMLClassAttribute {
 

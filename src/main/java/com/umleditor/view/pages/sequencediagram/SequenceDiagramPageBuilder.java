@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file SequenceDiagramPageBuilder.java
- */
 package com.umleditor.view.pages.sequencediagram;
 
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
@@ -15,7 +9,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 /**
- * Constructs page for Sequence Diagram editing
+ * Constructs page for Sequence Diagram editing.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 //TODO: Implement
 public class SequenceDiagramPageBuilder implements DiagramPageBuilder {

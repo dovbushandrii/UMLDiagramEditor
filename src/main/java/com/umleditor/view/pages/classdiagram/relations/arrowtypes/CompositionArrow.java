@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file CompositionArrow.java
- */
 package com.umleditor.view.pages.classdiagram.relations.arrowtypes;
 
 import com.umleditor.context.AppContext;
@@ -13,7 +7,11 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 /**
- * Element for Composition-type Arrow
+ * Element for Composition-type Arrow.
+ * Solid line and black diamond on the end.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class CompositionArrow extends Arrow {
 

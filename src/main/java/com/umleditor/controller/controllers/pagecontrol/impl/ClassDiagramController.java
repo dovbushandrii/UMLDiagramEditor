@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file ClassDiagramController.java
- */
 package com.umleditor.controller.controllers.pagecontrol.impl;
 
 import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
@@ -12,6 +6,9 @@ import com.umleditor.view.pages.interfaces.DiagramEditSpace;
 
 /**
  * Implementation of DiagramPageController for Class Diagrams
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class ClassDiagramController implements DiagramPageController {
 

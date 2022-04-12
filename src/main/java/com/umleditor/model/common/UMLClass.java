@@ -1,16 +1,13 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file UMLClass.java
- */
 package com.umleditor.model.common;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * UML Class data type
+ * UML Class DTO class
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class UMLClass extends UMLElement {
 

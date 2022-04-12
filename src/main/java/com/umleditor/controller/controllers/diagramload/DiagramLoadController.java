@@ -1,11 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file DiagramLoadController.java
- *
- * @brief UI Diagram Load Controller
- */
 package com.umleditor.controller.controllers.diagramload;
 
 import com.umleditor.context.AppContext;
@@ -20,10 +12,13 @@ import java.io.IOException;
 
 /**
  * UI Diagram Load Controller.
- * Loads diagram from file with FileManager
- * and loads it to connected edit page.
+ * Loads diagram from file with FileManager and loads it to connected edit page.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class DiagramLoadController {
+
     public static void loadDiagram() {
         try {
             UMLDiagram diagram = FileManager.openDiagramFile();

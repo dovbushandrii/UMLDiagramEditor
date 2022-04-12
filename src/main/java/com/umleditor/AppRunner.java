@@ -1,9 +1,3 @@
-/**
- * @author Andrii Dovbush xdovbu00
- * @author Anastasiia Oberemko xobere00
- *
- * @file AppRunner.java
- */
 package com.umleditor;
 
 import com.umleditor.context.AppConfig;
@@ -11,6 +5,10 @@ import com.umleditor.controller.controllers.window.MainWindow;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ */
 public class AppRunner extends Application {
     public static void startApp(String[] args) {
         launch(args);
