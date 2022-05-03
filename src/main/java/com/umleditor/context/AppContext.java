@@ -21,7 +21,7 @@ import java.util.Properties;
 /**
  * Application Context Class.
  * Contains loaded properties and page name to builder map for primitive pages,
- * and page name to diagram&controller&builder association map.
+ * and page name to diagram,controller,builder association map.
  *
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
@@ -29,7 +29,7 @@ import java.util.Properties;
 public class AppContext {
 
     /**
-     * Nested class to describe Digram<->Diagram Page Controller<->Page Builder association
+     * Nested class to describe (Diagram,Diagram Page Controller,Page Builder) association
      */
     private static class DiagramAssociation {
         private final Class<? extends UMLDiagram> diagramClass;

@@ -35,6 +35,10 @@ public class UMLClass extends UMLElement {
         this.fields.add(field);
     }
 
+    public void deleteField(UMLClassAttribute field) {
+        this.fields.remove(field);
+    }
+
     public List<UMLClassMethod> getMethods() {
         return this.methods;
     }
@@ -45,5 +49,9 @@ public class UMLClass extends UMLElement {
 
     public void addMethod(UMLClassMethod method) {
         this.methods.add(method);
+    }
+
+    public void deleteMethod(UMLClassMethod method) {
+        this.methods.remove(method);
     }
 }

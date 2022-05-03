@@ -54,12 +54,11 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
 
     /**
      * Updates class element on diagram.
-     * If class with same name is not defined on diagram, throws exception
      */
     public void updateClass(UMLClass newClass) {
         Optional<UMLClass> found = this.allClasses
                 .stream()
-                .filter(clazz -> clazz.getName().equals(newClass.getName()))
+                .filter(clazz -> clazz == newClass)
                 .findAny();
         if (found.isPresent()) {
             int index = this.allClasses.indexOf(found.get());
@@ -108,6 +107,16 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
                 ).collect(Collectors.toList());
     }
 
+    public void deleteRelationWithClass(UMLClass deleted) {
+        this.allRelations = this.allRelations.stream()
+                .filter(r ->
+                        !(      //<==== NOT
+                                r.getTo().getName().equals(deleted.getName()) ||
+                                        r.getFrom().getName().equals(deleted.getName())
+                        )
+                ).collect(Collectors.toList());
+    }
+
     public void deleteClass(String className) {
         this.allClasses = this.allClasses.stream()
                 .filter(c ->!c.getName().equals(className))
@@ -130,5 +139,13 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean classNameExits(String name) {
+        Optional<UMLClass> found = this.allClasses
+                .stream()
+                .filter(clazz -> clazz.getName().equals(name))
+                .findAny();
+        return found.isPresent();
     }
 }

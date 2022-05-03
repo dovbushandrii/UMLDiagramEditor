@@ -5,7 +5,6 @@ build/
 dest/
 doc/
 data/
-*.uml
 *.iml
 *.txt
 *.pdf

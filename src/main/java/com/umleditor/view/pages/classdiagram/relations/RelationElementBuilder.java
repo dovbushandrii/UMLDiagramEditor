@@ -91,7 +91,7 @@ public class RelationElementBuilder {
 
     /**
      * Converts degrees on 8 directions: N, NE, E, SE, S, SW, W, NW
-     * These 8 directions are: N -> TOP, E -> RIGHT, S -> BOTTOM, W -> LEFT
+     * These 8 directions are: N - TOP, E - RIGHT, S - BOTTOM, W - LEFT
      * @param degOrig Degrees calculated on window coordinates.
      * @return Direction on screen.
      */

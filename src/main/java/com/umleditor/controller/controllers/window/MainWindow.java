@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public class MainWindow {
     /**
-     * Root node for all pages. Switching pages -> replacing child nodes of root
+     * Root node for all pages. Switching pages - replacing child nodes of root
      */
     private static AnchorPane root;
     /**

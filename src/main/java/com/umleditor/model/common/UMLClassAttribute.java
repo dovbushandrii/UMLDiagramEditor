@@ -10,8 +10,8 @@ import com.umleditor.model.common.enums.UMLElementModifier;
  */
 public class UMLClassAttribute extends UMLElement {
 
-    private UMLElementModifier modifier;
-    protected String type;
+    private UMLElementModifier modifier = UMLElementModifier.PRIVATE;
+    protected String type = "";
 
     public UMLClassAttribute() {}
 

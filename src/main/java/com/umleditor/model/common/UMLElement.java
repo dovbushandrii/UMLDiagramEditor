@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class UMLElement implements Serializable {
 
-    private String name;
+    private String name = "";
 
     public String getName() {
         return this.name;
