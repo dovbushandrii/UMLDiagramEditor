@@ -19,7 +19,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * TODO: Comment
@@ -52,14 +51,12 @@ public class EditClassWindow {
                 diagram.addClass(newbie);
                 classList.getItems().setAll(diagram.getClasses());
                 classList.getSelectionModel().select(newbie);
-                if(diagram.getClasses().size() > 1) {
-                    Shortcuts.setFixedHeight(classList,60);
+                if (diagram.getClasses().size() > 1) {
+                    Shortcuts.setFixedHeight(classList, 60);
+                } else {
+                    Shortcuts.setFixedHeight(classList, 30);
                 }
-                else {
-                    Shortcuts.setFixedHeight(classList,30);
-                }
-            }
-            catch (Exception exception) {
+            } catch (Exception exception) {
                 ErrorWindow.showError("Cannot add new class", exception.getMessage());
             }
         });
@@ -70,20 +67,18 @@ public class EditClassWindow {
             diagram.deleteClass(clazz);
             diagram.deleteRelationWithClass(clazz);
             classList.getItems().remove(clazz);
-            if(diagram.getClasses().size() > 1) {
-                Shortcuts.setFixedHeight(classList,60);
-            }
-            else {
-                Shortcuts.setFixedHeight(classList,30);
+            if (diagram.getClasses().size() > 1) {
+                Shortcuts.setFixedHeight(classList, 60);
+            } else {
+                Shortcuts.setFixedHeight(classList, 30);
             }
         });
 
         editSpacePane = new Pane();
-        Pane controlButtons = new Pane();
 
-        mainPane.getChildren().addAll(classList,addClass, deleteClass,editSpacePane,controlButtons);
+        mainPane.getChildren().addAll(classList, addClass, deleteClass, editSpacePane);
 
-        Scene scene = new Scene(mainPane,500,500);
+        Scene scene = new Scene(mainPane, 500, 500);
 
         window.setScene(scene);
         window.setTitle("Edit Diagram Classes");

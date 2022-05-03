@@ -15,7 +15,10 @@ public class UMLCDRelation extends UMLElement {
 
     private UMLClass from;
     private UMLClass to;
-    private UMLCDRelationType type;
+    private UMLCDRelationType type = UMLCDRelationType.ASSOCIATION;
+
+    public UMLCDRelation() {
+    }
 
     public UMLCDRelation(UMLClass from, UMLClass to, UMLCDRelationType type) {
         this.from = from;

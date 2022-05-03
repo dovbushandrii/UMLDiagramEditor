@@ -7,8 +7,18 @@ package com.umleditor.model.classdiagram.enums;
  * @author Anastasiia Oberemko xobere00
  */
 public enum UMLCDRelationType {
-    ASSOCIATION,
-    GENERALIZATION,
-    AGGREGATION,
-    COMPOSITION
+    ASSOCIATION ("Association"),
+    GENERALIZATION ("Generalization"),
+    AGGREGATION("Aggregation"),
+    COMPOSITION("Composition");
+
+    private final String typeSymbol;
+
+    UMLCDRelationType(String typeSymbol) {
+        this.typeSymbol = typeSymbol;
+    }
+
+    public String getTypeSymbol() {
+        return typeSymbol;
+    }
 }

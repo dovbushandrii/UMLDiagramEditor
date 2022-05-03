@@ -5,6 +5,7 @@ import com.umleditor.model.classdiagram.UMLClassDiagram;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.interfaces.UMLDiagram;
 import com.umleditor.view.pages.classdiagram.editwindows.EditClassWindow;
+import com.umleditor.view.pages.classdiagram.editwindows.EditRelationWindow;
 import com.umleditor.view.pages.classdiagram.relations.RelationElementBuilder;
 import com.umleditor.view.pages.interfaces.DiagramEditSpace;
 import com.umleditor.view.pages.interfaces.Shortcuts;
@@ -74,13 +75,23 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
         return editButton;
     }
 
+    private Button constructEditRelationButton() {
+        Button editButton = new Button("Edit Relations");
+        editButton.setOnAction(e -> {
+            EditRelationWindow modalWindow = new EditRelationWindow(diagram);
+            modalWindow.show();
+            updateCurrentEditSpace();
+        });
+        return editButton;
+    }
+
     private void constructEditMenu() {
         HBox editMenu = new HBox();
         Shortcuts.bindWidth(editMenu, editSpace);
         editMenu.setStyle("-fx-background-color:" + AppContext.getProperty("edit-menu-color"));
 
         editMenu.getChildren().add(constructEditClassButton());
-        editMenu.getChildren().add(new Button("Edit Relations"));
+        editMenu.getChildren().add(constructEditRelationButton());
 
         editSpace.getChildren().add(editMenu);
     }

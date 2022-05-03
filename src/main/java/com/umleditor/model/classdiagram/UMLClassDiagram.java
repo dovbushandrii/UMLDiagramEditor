@@ -93,6 +93,10 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
         }
     }
 
+    public void addRelation(UMLCDRelation relation) {
+        this.allRelations.add(relation);
+    }
+
     public void deleteClass(UMLClass toDelete) {
         this.allClasses.remove(toDelete);
     }
@@ -145,6 +149,25 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
         Optional<UMLClass> found = this.allClasses
                 .stream()
                 .filter(clazz -> clazz.getName().equals(name))
+                .findAny();
+        return found.isPresent();
+    }
+
+    public boolean relationExists(UMLClass from, UMLClass to) {
+        if (from == null || to == null) {
+            return true;
+        }
+        Optional<UMLCDRelation> found = this.allRelations
+                .stream()
+                .filter(r ->
+                        (
+                                r.getTo().getName().equals(to.getName()) &&
+                                        r.getFrom().getName().equals(from.getName())
+                        ) || (
+                                r.getTo().getName().equals(from.getName()) &&
+                                        r.getFrom().getName().equals(to.getName())
+                        )
+                )
                 .findAny();
         return found.isPresent();
     }
