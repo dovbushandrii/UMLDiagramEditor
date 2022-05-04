@@ -1,6 +1,6 @@
 package com.umleditor.model.common;
 
-import java.io.Serializable;
+import lombok.Data;
 
 /**
  * UML Element is root parent for add UML diagram elements.
@@ -8,15 +8,7 @@ import java.io.Serializable;
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
  */
-public class UMLElement implements Serializable {
-
-    private String name = "";
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+@Data
+public class UMLElement {
+    protected String name = "";
 }

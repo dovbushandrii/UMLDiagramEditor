@@ -1,6 +1,6 @@
 package com.umleditor.model.classdiagram;
 
-import com.umleditor.model.classdiagram.enums.UMLCDRelationType;
+import com.umleditor.model.classdiagram.enums.UMLRelationType;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.UMLElement;
 
@@ -11,26 +11,26 @@ import com.umleditor.model.common.UMLElement;
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
  */
-public class UMLCDRelation extends UMLElement {
+public class UMLRelation extends UMLElement {
 
     private UMLClass from;
     private UMLClass to;
-    private UMLCDRelationType type = UMLCDRelationType.ASSOCIATION;
+    private UMLRelationType type = UMLRelationType.ASSOCIATION;
 
-    public UMLCDRelation() {
+    public UMLRelation() {
     }
 
-    public UMLCDRelation(UMLClass from, UMLClass to, UMLCDRelationType type) {
+    public UMLRelation(UMLClass from, UMLClass to, UMLRelationType type) {
         this.from = from;
         this.to = to;
         this.type = type;
     }
 
-    public UMLCDRelationType getType() {
+    public UMLRelationType getType() {
         return this.type;
     }
 
-    public void setType(UMLCDRelationType type) {
+    public void setType(UMLRelationType type) {
         this.type = type;
     }
 

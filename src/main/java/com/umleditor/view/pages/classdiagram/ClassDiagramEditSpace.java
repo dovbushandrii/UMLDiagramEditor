@@ -1,23 +1,15 @@
 package com.umleditor.view.pages.classdiagram;
 
-import com.umleditor.context.AppContext;
+import com.umleditor.model.UMLProject;
 import com.umleditor.model.classdiagram.UMLClassDiagram;
-import com.umleditor.model.common.UMLClass;
-import com.umleditor.model.common.interfaces.UMLDiagram;
-import com.umleditor.view.pages.classdiagram.editwindows.EditClassWindow;
-import com.umleditor.view.pages.classdiagram.editwindows.EditRelationWindow;
-import com.umleditor.view.pages.classdiagram.relations.RelationElementBuilder;
 import com.umleditor.view.pages.interfaces.DiagramEditSpace;
 import com.umleditor.view.pages.interfaces.Shortcuts;
-import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Class that control edit space for Class Diagram
@@ -27,22 +19,15 @@ import java.util.Map;
  */
 public class ClassDiagramEditSpace implements DiagramEditSpace {
 
-    private final Pane editSpace;
-    private Pane editSpacePane;
-    private UMLClassDiagram diagram;
+    public final Pane editSpace;
+    public UMLProject project;
+    public int selectedDiagram = 0;
+    public ClassDiagramEditTab currentTab = null;
 
-    private double dragStartX;
-    private double dragStartY;
-
-    public ClassDiagramEditSpace(UMLDiagram diagram) {
-        if (diagram == null || diagram instanceof UMLClassDiagram) {
-            this.editSpace = new VBox();
-            constructNewEditSpace();
-            this.diagram = (UMLClassDiagram) diagram;
-            updateCurrentEditSpace();
-        } else {
-            throw new IllegalArgumentException("UMLDiagram is not Class Diagram");
-        }
+    public ClassDiagramEditSpace(UMLProject project) {
+        this.editSpace = new VBox();
+        this.project = project;
+        constructEditSpace();
     }
 
     @Override
@@ -51,120 +36,63 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
     }
 
     @Override
-    public void updateEditSpace(UMLDiagram diagram) {
-        if (diagram == null || diagram instanceof UMLClassDiagram) {
-            this.diagram = (UMLClassDiagram) diagram;
-            updateCurrentEditSpace();
-        } else {
-            throw new IllegalArgumentException("UMLDiagram is not Class Diagram");
-        }
-    }
-
-    private void constructNewEditSpace() {
-        constructEditMenu();
+    public void updateEditSpace(UMLProject project) {
+        this.project = project;
         constructEditSpace();
     }
 
-    private Button constructEditClassButton() {
-        Button editButton = new Button("Edit Classes");
-        editButton.setOnAction(e -> {
-            EditClassWindow modalWindow = new EditClassWindow(diagram);
-            modalWindow.show();
-            updateCurrentEditSpace();
+    private Button newButton() {
+        Button button = new Button();
+        button.setText("New");
+        button.setOnAction(event -> {
+            project.createNewClassDiagram("Diagram " + (project.getClassDiagrams().size() + 1));
+            selectedDiagram = project.getClassDiagrams().size() - 1;
+            constructEditSpace();
         });
-        return editButton;
+        return button;
     }
 
-    private Button constructEditRelationButton() {
-        Button editButton = new Button("Edit Relations");
-        editButton.setOnAction(e -> {
-            EditRelationWindow modalWindow = new EditRelationWindow(diagram);
-            modalWindow.show();
-            updateCurrentEditSpace();
+    private Button deleteButton() {
+        Button button = new Button();
+        button.setText("Delete");
+        button.setOnAction(event -> {
+            project.getClassDiagrams().remove(selectedDiagram);
+            constructEditSpace();
         });
-        return editButton;
+        return button;
     }
 
-    private void constructEditMenu() {
-        HBox editMenu = new HBox();
-        Shortcuts.bindWidth(editMenu, editSpace);
-        editMenu.setStyle("-fx-background-color:" + AppContext.getProperty("edit-menu-color"));
-
-        editMenu.getChildren().add(constructEditClassButton());
-        editMenu.getChildren().add(constructEditRelationButton());
-
-        editSpace.getChildren().add(editMenu);
+    private Button tabButton(String name, int index) {
+        Button button = new Button();
+        button.setText(name);
+        button.setOnAction(event -> {
+            this.selectedDiagram = index;
+            constructEditSpace();
+        });
+        return button;
     }
 
     private void constructEditSpace() {
-        Pane editSpacePane = new Pane();
-        Shortcuts.bindWidth(editSpacePane, editSpace);
-        Shortcuts.bindHeight(editSpacePane, editSpace);
+        this.editSpace.getChildren().clear();
 
-        this.editSpacePane = editSpacePane;
-        editSpace.getChildren().add(editSpacePane);
-    }
+        // Buttons
+        HBox tabs = new HBox();
+        Shortcuts.bindWidth(tabs, this.editSpace);
 
-    private void updateCurrentEditSpace() {
-        if (diagram != null) {
-            Pane editSpace = (Pane) this.editSpace.getChildren().get(1);
-            // Delete previous diagram
-            editSpace.getChildren().clear();
-            // Create new Diagram
-            Map<UMLClass, Node> elementMap = new HashMap<>();
-            diagram.getClasses().forEach(c -> {
-                Node classElement = ClassElementBuilder.constructClassElement(c);
-                makeDraggable(classElement);
-                editSpace.getChildren().add(classElement);
-                elementMap.put(c, classElement);
-            });
-            diagram.getRelations().forEach(r -> {
-                Node classFrom = elementMap.get(r.getFrom());
-                Node classTo = elementMap.get(r.getTo());
-                Node relation = RelationElementBuilder.constructRelation(classFrom, classTo, r.getType());
-                editSpace.getChildren().add(relation);
-            });
+        tabs.getChildren().addAll(newButton(), deleteButton());
+
+        this.editSpace.getChildren().add(tabs);
+
+        if (project != null) {
+            List<UMLClassDiagram> diagrams = project.getClassDiagrams();
+            for (int i = 0; i < diagrams.size(); i++) {
+                Button tab = tabButton(diagrams.get(i).getName(), i);
+                tabs.getChildren().add(tab);
+            }
+            if(diagrams.size() > 0) {
+                currentTab = new ClassDiagramEditTab(diagrams.get(selectedDiagram));
+                this.editSpace.getChildren().add(currentTab.getEditTab());
+            }
         }
-    }
-
-    /**
-     * Sets listeners to node that allows to drag it
-     * in between Edit Space borders
-     */
-    private void makeDraggable(Node node) {
-        final Pane edSpace = this.editSpacePane;
-        node.setOnMousePressed(e -> {
-            dragStartX = node.getLayoutX() - e.getSceneX();
-            dragStartY = node.getLayoutY() - e.getSceneY();
-            node.setCursor(Cursor.MOVE);
-            node.toFront();
-        });
-        node.setOnMouseReleased(e -> {
-            node.setCursor(Cursor.HAND);
-        });
-        node.setOnMouseDragged(e -> {
-            double newPosX = e.getSceneX() + dragStartX;
-            double newPosY = e.getSceneY() + dragStartY;
-            if(isInXBorders(node,edSpace,newPosX)) {
-                node.setLayoutX(e.getSceneX() + dragStartX);
-            }
-            if(isInYBorders(node,edSpace,newPosY)) {
-                node.setLayoutY(e.getSceneY() + dragStartY);
-            }
-        });
-    }
-
-    private boolean isInXBorders(Node node, Pane pane, double newPos) {
-        double paneWidth = pane.getWidth();
-        double nodeWidth = node.getBoundsInParent().getWidth();
-        double maxX = paneWidth - nodeWidth;
-        return (newPos > 0 && newPos < maxX);
-    }
-
-    private boolean isInYBorders(Node node, Pane pane, double newPos) {
-        double paneHeight = pane.getHeight();
-        double nodeHeight = node.getBoundsInParent().getHeight();
-        double maxY = paneHeight - nodeHeight;
-        return (newPos > 0 && newPos < maxY);
     }
 }

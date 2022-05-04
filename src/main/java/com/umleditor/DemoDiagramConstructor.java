@@ -1,7 +1,7 @@
 package com.umleditor;
 
 import com.umleditor.model.classdiagram.UMLClassDiagram;
-import com.umleditor.model.classdiagram.enums.UMLCDRelationType;
+import com.umleditor.model.classdiagram.enums.UMLRelationType;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.UMLClassAttribute;
 import com.umleditor.model.common.UMLClassMethod;
@@ -11,6 +11,7 @@ import com.umleditor.model.common.interfaces.UMLDiagram;
 import java.util.Arrays;
 
 public class DemoDiagramConstructor {
+    /*
     public static UMLDiagram constructDemoDiagram() {
         UMLClassDiagram diagram = new UMLClassDiagram();
         diagram.setName("Dog-Owner-Diagram");
@@ -23,10 +24,10 @@ public class DemoDiagramConstructor {
         diagram.addClass(food);
         diagram.addClass(object);
 
-        diagram.addRelation(dog,owner, UMLCDRelationType.ASSOCIATION);
-        diagram.addRelation(owner,object, UMLCDRelationType.AGGREGATION);
-        diagram.addRelation(object,food, UMLCDRelationType.COMPOSITION);
-        diagram.addRelation(food,dog, UMLCDRelationType.GENERALIZATION);
+        diagram.addRelation(dog,owner, UMLRelationType.ASSOCIATION);
+        diagram.addRelation(owner,object, UMLRelationType.AGGREGATION);
+        diagram.addRelation(object,food, UMLRelationType.COMPOSITION);
+        diagram.addRelation(food,dog, UMLRelationType.GENERALIZATION);
 
         return diagram;
     }
@@ -186,4 +187,6 @@ public class DemoDiagramConstructor {
         ));
         return clazz;
     }
+
+     */
 }

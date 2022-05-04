@@ -1,6 +1,6 @@
 package com.umleditor.view.pages.classdiagram.relations;
 
-import com.umleditor.model.classdiagram.enums.UMLCDRelationType;
+import com.umleditor.model.classdiagram.enums.UMLRelationType;
 import com.umleditor.view.pages.classdiagram.relations.arrowtypes.*;
 import javafx.scene.Node;
 
@@ -23,7 +23,7 @@ public class RelationElementBuilder {
         N_W
     }
 
-    public static Node constructRelation(Node classFrom, Node classTo, UMLCDRelationType type) {
+    public static Node constructRelation(Node classFrom, Node classTo, UMLRelationType type) {
         final Arrow arrow;
         switch (type) {
             case ASSOCIATION: arrow = new AssociationArrow(); break;

@@ -1,9 +1,11 @@
 package com.umleditor.view.pages.mainmenu;
 
-import com.umleditor.controller.controllers.diagramload.DiagramLoadController;
+import com.umleditor.context.AppContext;
+import com.umleditor.controller.controllers.diagramload.ProjectLoadController;
 import com.umleditor.controller.controllers.window.MainWindow;
 import com.umleditor.controller.enums.AppPage;
-import com.umleditor.view.pages.interfaces.PrimitivePageBuilder;
+import com.umleditor.model.UMLProject;
+import com.umleditor.view.pages.interfaces.ProjectDependentPage;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -17,31 +19,44 @@ import javafx.scene.text.Text;
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
  */
-public class MainMenuPageBuilder implements PrimitivePageBuilder {
+public class MainMenuPage implements ProjectDependentPage {
+
+    private Pane root = new VBox();
 
     private Button openButton() {
         Button button = new Button();
-        button.setText("Open File");
+        button.setText("Open Project");
         button.setOnAction(event ->{
-            DiagramLoadController.loadDiagram();
+            ProjectLoadController.loadProject();
         });
         return button;
     }
 
-    private Button classDiagramButton() {
+    private Button newButton() {
         Button button = new Button();
-        button.setText("Class Diagram Edit");
+        button.setText("New Project");
         button.setOnAction(event ->{
-            MainWindow.setPage(AppPage.CLASS_DIAGRAM);
+            AppContext.loadUMLProject(new UMLProject());
+            AppContext.refreshProjectDependentPages();
+            MainWindow.setPage(AppPage.EDIT_PROJECT);
         });
         return button;
     }
 
-    private Button sequenceDiagramButton() {
+    private Button continueButton() {
         Button button = new Button();
-        button.setText("Sequence Diagram Edit");
+        button.setText("Current Project");
         button.setOnAction(event ->{
-            MainWindow.setPage(AppPage.SEQUENCE_DIAGRAM);
+            MainWindow.setPage(AppPage.EDIT_PROJECT);
+        });
+        return button;
+    }
+
+    private Button saveButton() {
+        Button button = new Button();
+        button.setText("Save Project");
+        button.setOnAction(event ->{
+            ProjectLoadController.saveProject(AppContext.getUMLProject());
         });
         return button;
     }
@@ -71,17 +86,28 @@ public class MainMenuPageBuilder implements PrimitivePageBuilder {
 
     @Override
     public Pane build() {
-        VBox root = new VBox();
+        constructPage();
+        return root;
+    }
+
+    private void constructPage() {
+        root.getChildren().clear();
+
         HBox menuBar = new HBox();
 
-        menuBar.getChildren().add(openButton());
-        menuBar.getChildren().add(classDiagramButton());
-        menuBar.getChildren().add(sequenceDiagramButton());
+        menuBar.getChildren().addAll(openButton(),newButton());
+
+        if(AppContext.getUMLProject() != null) {
+            menuBar.getChildren().addAll(continueButton(), saveButton());
+        }
 
         root.getChildren().add(menuBar);
         root.getChildren().add(whatsImplementedText());
         root.getChildren().add(guideText());
+    }
 
-        return root;
+    @Override
+    public void updateProject(UMLProject project) {
+        constructPage();
     }
 }

@@ -8,6 +8,6 @@ import javafx.scene.layout.Pane;
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
  */
-public interface PrimitivePageBuilder {
+public interface ProjectIndependentPage {
     Pane build();
 }

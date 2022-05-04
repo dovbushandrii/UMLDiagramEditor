@@ -1,11 +1,9 @@
 package com.umleditor.view.pages.classdiagram.editwindows;
 
-import com.umleditor.model.classdiagram.UMLCDRelation;
+import com.umleditor.model.classdiagram.UMLRelation;
 import com.umleditor.model.classdiagram.UMLClassDiagram;
-import com.umleditor.model.classdiagram.enums.UMLCDRelationType;
+import com.umleditor.model.classdiagram.enums.UMLRelationType;
 import com.umleditor.model.common.UMLClass;
-import com.umleditor.model.common.UMLClassAttribute;
-import com.umleditor.model.common.enums.UMLElementModifier;
 import com.umleditor.view.errorwindow.ErrorWindow;
 import com.umleditor.view.pages.interfaces.Shortcuts;
 import javafx.beans.value.ChangeListener;
@@ -19,8 +17,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.util.List;
-
 /**
  * TODO: Comment
  *
@@ -29,7 +25,7 @@ import java.util.List;
  */
 public class EditRelationWindow {
     private Stage window;
-    private ListView<UMLCDRelation> relationList;
+    private ListView<UMLRelation> relationList;
     private UMLClassDiagram diagram;
 
     public EditRelationWindow(UMLClassDiagram diagram) {
@@ -43,32 +39,41 @@ public class EditRelationWindow {
         relationList = constructRelationList(diagram);
         Button addClass = new Button("New Relation");
         addClass.setOnAction(e -> {
-            UMLCDRelation newbie = new UMLCDRelation();
-            newbie.setFrom(diagram.getClasses().get(0));
-            newbie.setTo(diagram.getClasses().get(0));
-            try {
-                diagram.addRelation(newbie);
-                relationList.getItems().setAll(diagram.getRelations());
-                relationList.getSelectionModel().select(newbie);
-                double height = 30.0 * diagram.getRelations().size() + 10;
-                relationList.setMinHeight(height);
-                relationList.setMaxHeight(height);
-            } catch (Exception exception) {
-                ErrorWindow.showError("Cannot add new relation", exception.getMessage());
+            if(diagram.getAllClasses().size() > 0) {
+                UMLRelation newbie = new UMLRelation();
+                newbie.setFrom(diagram.getAllClasses().get(0));
+                newbie.setTo(diagram.getAllClasses().get(0));
+                try {
+                    diagram.addRelation(newbie);
+                    relationList.getItems().setAll(diagram.getAllRelations());
+                    relationList.getSelectionModel().select(newbie);
+                    double height = 30.0 * diagram.getAllRelations().size() + 16;
+                    relationList.setMinHeight(height);
+                    relationList.setMaxHeight(height);
+                } catch (Exception exception) {
+                    ErrorWindow.showError("Cannot add new relation", exception.getMessage());
+                }
             }
         });
 
         Button deleteClass = new Button("Delete Selected Relation");
         deleteClass.setOnAction(e -> {
-            UMLCDRelation relation = relationList.getSelectionModel().getSelectedItem();
-            diagram.deleteRelation(relation.getFrom(), relation.getTo());
-            relationList.getItems().remove(relation);
-            double height = 30.0 * diagram.getRelations().size() + 10;
-            relationList.setMinHeight(height);
-            relationList.setMaxHeight(height);
+            UMLRelation relation = relationList.getSelectionModel().getSelectedItem();
+            if(relation != null) {
+                diagram.deleteRelation(relation);
+                relationList.getItems().remove(relation);
+                double height = 30.0 * diagram.getAllRelations().size() + 16;
+                relationList.setMinHeight(height);
+                relationList.setMaxHeight(height);
+            }
         });
 
-        mainPane.getChildren().addAll(relationList, addClass, deleteClass);
+        Button closeButton = new Button("Save and Close");
+        closeButton.setOnAction(e -> {
+            window.close();
+        });
+
+        mainPane.getChildren().addAll(relationList, addClass, deleteClass, closeButton);
 
         Scene scene = new Scene(mainPane, 630, 500);
 
@@ -80,30 +85,32 @@ public class EditRelationWindow {
         window.showAndWait();
     }
 
-    private ListView<UMLCDRelation> constructRelationList(UMLClassDiagram diagram) {
-        ListView<UMLCDRelation> relationList = new ListView<>();
-        relationList.getItems().setAll(diagram.getRelations());
-        setRelationsCellFactory(relationList);
+    private ListView<UMLRelation> constructRelationList(UMLClassDiagram diagram) {
+        ListView<UMLRelation> relationList = new ListView<>();
+        if(diagram.getAllClasses().size() > 0) {
+            relationList.getItems().setAll(diagram.getAllRelations());
+            setRelationsCellFactory(relationList);
+        }
 
         relationList.setEditable(true);
 
         relationList.setFixedCellSize(30);
 
-        double height = 30.0 * diagram.getRelations().size() + 10;
+        double height = 30.0 * diagram.getAllRelations().size() + 16;
         relationList.setMinHeight(height);
         relationList.setMaxHeight(height);
         return relationList;
     }
 
-    private ListView<UMLCDRelationType> constructRelationTypeList() {
-        ListView<UMLCDRelationType> types = new ListView<>();
-        types.getItems().setAll(UMLCDRelationType.values());
-        types.setCellFactory(new Callback<ListView<UMLCDRelationType>, ListCell<UMLCDRelationType>>() {
+    private ListView<UMLRelationType> constructRelationTypeList() {
+        ListView<UMLRelationType> types = new ListView<>();
+        types.getItems().setAll(UMLRelationType.values());
+        types.setCellFactory(new Callback<ListView<UMLRelationType>, ListCell<UMLRelationType>>() {
             @Override
-            public ListCell<UMLCDRelationType> call(ListView<UMLCDRelationType> umlElementModifierListView) {
-                return new ListCell<UMLCDRelationType>(){
+            public ListCell<UMLRelationType> call(ListView<UMLRelationType> umlElementModifierListView) {
+                return new ListCell<UMLRelationType>(){
                     @Override
-                    public void updateItem(UMLCDRelationType type, boolean empty) {
+                    public void updateItem(UMLRelationType type, boolean empty) {
                         super.updateItem(type, empty);
                         if (empty) {
                             setText(null);
@@ -153,7 +160,7 @@ public class EditRelationWindow {
 
     private ListView<UMLClass> constructClassList(UMLClassDiagram diagram) {
         ListView<UMLClass> classList = new ListView<>();
-        classList.getItems().setAll(diagram.getClasses());
+        classList.getItems().setAll(diagram.getAllClasses());
         setCellFactory(classList);
         classList.setEditable(false);
         classList.setFixedCellSize(30);
@@ -161,7 +168,7 @@ public class EditRelationWindow {
         return classList;
     }
 
-    private Pane constructRelationCell(UMLCDRelation relation) {
+    private Pane constructRelationCell(UMLRelation relation) {
         HBox cell = new HBox();
 
         // From Class
@@ -169,11 +176,11 @@ public class EditRelationWindow {
         fromClass.getSelectionModel().select(relation.getFrom());
 
         // Relation type
-        ListView<UMLCDRelationType> types = constructRelationTypeList();
+        ListView<UMLRelationType> types = constructRelationTypeList();
         types.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
-                UMLCDRelationType select = types.getSelectionModel().getSelectedItem();
+                UMLRelationType select = types.getSelectionModel().getSelectedItem();
                 relation.setType(select);
             }
         });
@@ -217,13 +224,13 @@ public class EditRelationWindow {
         return cell;
     }
 
-    private void setRelationsCellFactory(ListView<UMLCDRelation> fieldList) {
-        fieldList.setCellFactory(new Callback<ListView<UMLCDRelation>, ListCell<UMLCDRelation>>() {
+    private void setRelationsCellFactory(ListView<UMLRelation> fieldList) {
+        fieldList.setCellFactory(new Callback<ListView<UMLRelation>, ListCell<UMLRelation>>() {
             @Override
-            public ListCell<UMLCDRelation> call(ListView<UMLCDRelation> umlClassAttributeListView) {
-                return new ListCell<UMLCDRelation>(){
+            public ListCell<UMLRelation> call(ListView<UMLRelation> umlClassAttributeListView) {
+                return new ListCell<UMLRelation>(){
                     @Override
-                    public void updateItem(UMLCDRelation relation, boolean empty) {
+                    public void updateItem(UMLRelation relation, boolean empty) {
                         super.updateItem(relation, empty);
                         if (empty) {
                             setText(null);

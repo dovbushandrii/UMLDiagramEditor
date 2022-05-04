@@ -44,7 +44,7 @@ public class ClassElementBuilder {
         header.setStyle("-fx-background-color:" + AppContext.getProperty("class-header-color") + ";"
         + "-fx-border-color: black");
 
-        if (umlClass.getIsAbstract()) {
+        if (umlClass.isAbstract()) {
             Label abs = new Label("<<abstract>>");
             Shortcuts.bindWidth(abs, header);
             header.getChildren().add(abs);

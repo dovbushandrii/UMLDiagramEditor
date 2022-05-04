@@ -1,9 +1,9 @@
 package com.umleditor.view.pages.sequencediagram;
 
-import com.umleditor.controller.controllers.pagecontrol.interfaces.DiagramPageController;
 import com.umleditor.controller.controllers.window.MainWindow;
 import com.umleditor.controller.enums.AppPage;
-import com.umleditor.view.pages.interfaces.DiagramPageBuilder;
+import com.umleditor.model.UMLProject;
+import com.umleditor.view.pages.interfaces.ProjectDependentPage;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -15,16 +15,21 @@ import javafx.scene.layout.VBox;
  * @author Anastasiia Oberemko xobere00
  */
 //TODO: Implement
-public class SequenceDiagramPageBuilder implements DiagramPageBuilder {
+public class SequenceDiagramPage implements ProjectDependentPage {
     @Override
-    public Pane build(DiagramPageController controller) {
+    public Pane build() {
         VBox root = new VBox();
         Button button = new Button();
         button.setText("Back to Menu");
-        button.setOnAction(event ->{
+        button.setOnAction(event -> {
             MainWindow.setPage(AppPage.MAIN_MENU);
         });
         root.getChildren().add(button);
         return root;
+    }
+
+    @Override
+    public void updateProject(UMLProject project) {
+
     }
 }

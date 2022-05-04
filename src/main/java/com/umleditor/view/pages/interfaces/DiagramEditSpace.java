@@ -1,5 +1,6 @@
 package com.umleditor.view.pages.interfaces;
 
+import com.umleditor.model.UMLProject;
 import com.umleditor.model.common.interfaces.UMLDiagram;
 import javafx.scene.layout.Pane;
 
@@ -12,6 +13,6 @@ import javafx.scene.layout.Pane;
  * @author Anastasiia Oberemko xobere00
  */
 public interface DiagramEditSpace {
-    void updateEditSpace(UMLDiagram diagram);
+    void updateEditSpace(UMLProject project);
     Pane getEditSpace();
 }

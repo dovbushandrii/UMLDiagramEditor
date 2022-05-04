@@ -1,13 +1,10 @@
 package com.umleditor.context;
 
-import com.umleditor.controller.controllers.pagecontrol.impl.ClassDiagramController;
-import com.umleditor.controller.controllers.pagecontrol.impl.SequenceDiagramController;
 import com.umleditor.controller.enums.AppPage;
-import com.umleditor.model.classdiagram.UMLClassDiagram;
-import com.umleditor.model.sequencediagram.UMLSequenceDiagram;
-import com.umleditor.view.pages.classdiagram.ClassDiagramPageBuilder;
-import com.umleditor.view.pages.mainmenu.MainMenuPageBuilder;
-import com.umleditor.view.pages.sequencediagram.SequenceDiagramPageBuilder;
+import com.umleditor.view.pages.classdiagram.ClassDiagramPage;
+import com.umleditor.view.pages.editproject.EditProjectPage;
+import com.umleditor.view.pages.mainmenu.MainMenuPage;
+import com.umleditor.view.pages.sequencediagram.SequenceDiagramPage;
 
 /**
  * Application start config class
@@ -19,26 +16,14 @@ import com.umleditor.view.pages.sequencediagram.SequenceDiagramPageBuilder;
 public class AppConfig {
 
     /**
-     * Defines Page Name to (Diagram, Controller, Page Builder) context association
-     * @throws ClassNotFoundException
-     */
-    private static void addDiagramPageAssociations() throws ClassNotFoundException {
-        AppContext.addDiagramPageAssociation(AppPage.CLASS_DIAGRAM,
-                UMLClassDiagram.class,
-                ClassDiagramController.class,
-                ClassDiagramPageBuilder.class);
-        AppContext.addDiagramPageAssociation(AppPage.SEQUENCE_DIAGRAM,
-                UMLSequenceDiagram.class,
-                SequenceDiagramController.class,
-                SequenceDiagramPageBuilder.class);
-    }
-
-    /**
      * Defines Page Name to Page Builder for 'primitive' pages context association
      * @throws ClassNotFoundException
      */
-    private static void addPrimitivePageAssociations() throws ClassNotFoundException {
-        AppContext.addPrimitivePageAssociation(AppPage.MAIN_MENU, MainMenuPageBuilder.class);
+    private static void addPageAssociations() throws ClassNotFoundException {
+        AppContext.addPageAssociation(AppPage.MAIN_MENU, MainMenuPage.class);
+        AppContext.addPageAssociation(AppPage.EDIT_CLASS_DIAGRAMS, ClassDiagramPage.class);
+        AppContext.addPageAssociation(AppPage.EDIT_SEQUENCE_DIAGRAMS, SequenceDiagramPage.class);
+        AppContext.addPageAssociation(AppPage.EDIT_PROJECT, EditProjectPage.class);
     }
 
     /**
@@ -54,8 +39,7 @@ public class AppConfig {
      * @throws Exception
      */
     public static void initializeContext() throws Exception {
-        addDiagramPageAssociations();
-        addPrimitivePageAssociations();
+        addPageAssociations();
         loadProperites();
     }
 }

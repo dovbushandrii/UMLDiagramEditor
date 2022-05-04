@@ -36,11 +36,8 @@ public class MainWindow {
      * Loads pages from Application Context
      */
     private static void loadLayouts() {
-        Map<AppPage, Pane> diagramPages = AppContext.getDiagramPages();
+        Map<AppPage, Pane> diagramPages = AppContext.getPages();
         diagramPages.forEach(pageMap::put);
-
-        Map<AppPage, Pane> defaultPages = AppContext.getPrimitivePages();
-        defaultPages.forEach(pageMap::put);
     }
 
     /**

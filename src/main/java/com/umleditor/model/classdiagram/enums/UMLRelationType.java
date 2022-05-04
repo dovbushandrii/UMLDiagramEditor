@@ -6,7 +6,7 @@ package com.umleditor.model.classdiagram.enums;
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
  */
-public enum UMLCDRelationType {
+public enum UMLRelationType {
     ASSOCIATION ("Association"),
     GENERALIZATION ("Generalization"),
     AGGREGATION("Aggregation"),
@@ -14,7 +14,7 @@ public enum UMLCDRelationType {
 
     private final String typeSymbol;
 
-    UMLCDRelationType(String typeSymbol) {
+    UMLRelationType(String typeSymbol) {
         this.typeSymbol = typeSymbol;
     }
 

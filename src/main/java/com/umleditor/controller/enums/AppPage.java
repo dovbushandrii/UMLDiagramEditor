@@ -9,10 +9,9 @@ package com.umleditor.controller.enums;
  */
 public enum AppPage {
     MAIN_MENU ("UML Diagram Editor"),
-    CLASS_DIAGRAM ("Edit Class Diagram"),
-
-    // TODO: Replace "Under Construction" to "Edit Sequence Diagram" after SequenceDiagram will be implemented
-    SEQUENCE_DIAGRAM ("Under Construction");
+    EDIT_PROJECT ("Edit Project"),
+    EDIT_CLASS_DIAGRAMS("Edit Class Diagram"),
+    EDIT_SEQUENCE_DIAGRAMS ("Edit Sequence Diagram");
 
     private final String stageTitle;
 

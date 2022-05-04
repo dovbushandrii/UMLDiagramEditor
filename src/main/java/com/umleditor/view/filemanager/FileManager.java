@@ -1,7 +1,8 @@
 package com.umleditor.view.filemanager;
 
+import com.umleditor.model.UMLProject;
 import com.umleditor.model.common.interfaces.UMLDiagram;
-import com.umleditor.model.daos.DiagramDAO;
+import com.umleditor.model.daos.ProjectDAO;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -20,31 +21,31 @@ public class FileManager {
         FileChooser chooser = new FileChooser();
         FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("UML file (*.uml)", "*.uml");
         chooser.getExtensionFilters().add(ext1);
-        chooser.setTitle("Open UML Diagram");
+        chooser.setTitle("Open UML Project");
         return chooser;
     }
 
     private static FileChooser initializeSaveChooser() {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Save UML Diagram");
-        chooser.setInitialFileName("my_diagram.uml");
+        chooser.setTitle("Save UML Project");
+        chooser.setInitialFileName("my_project.uml");
         FileChooser.ExtensionFilter ext1 = new FileChooser.ExtensionFilter("UML file (*.uml)", "*.uml");
         chooser.getExtensionFilters().add(ext1);
         return chooser;
     }
 
-    public static UMLDiagram openDiagramFile() throws IOException {
+    public static UMLProject openProjectFile() throws IOException {
         File selectedFile = initializeOpenChooser().showOpenDialog(null);
         if (selectedFile != null) {
-            return DiagramDAO.loadDiagram(selectedFile);
+            return ProjectDAO.loadProject(selectedFile);
         }
         return null;
     }
 
-    public static void saveDiagramFile(UMLDiagram diagram) throws IOException {
+    public static void saveProjectFile(UMLProject project) throws IOException {
         File savedFile = initializeSaveChooser().showSaveDialog(null);
         if (savedFile != null) {
-            DiagramDAO.saveDiagram(diagram, savedFile);
+            ProjectDAO.saveProject(project, savedFile);
         }
     }
 }

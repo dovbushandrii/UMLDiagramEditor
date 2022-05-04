@@ -9,8 +9,8 @@ package com.umleditor.model.classdiagram.exceptions;
 /**
  * Exception that is thrown when you try to add class that is already defined on diagram
  */
-public class ClassIsAlreadyDefinedOnDiagramException extends RuntimeException {
-    public ClassIsAlreadyDefinedOnDiagramException(String message) {
+public class ClassIsAlreadyDefinedException extends RuntimeException {
+    public ClassIsAlreadyDefinedException(String message) {
         super(message);
     }
 }

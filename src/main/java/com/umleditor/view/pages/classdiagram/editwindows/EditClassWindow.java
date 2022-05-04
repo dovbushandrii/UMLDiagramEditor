@@ -6,6 +6,7 @@ import com.umleditor.model.common.UMLClassAttribute;
 import com.umleditor.model.common.UMLClassMethod;
 import com.umleditor.model.common.enums.UMLElementModifier;
 import com.umleditor.view.errorwindow.ErrorWindow;
+import com.umleditor.view.pages.classdiagram.SelectExistingClassWindow;
 import com.umleditor.view.pages.interfaces.Shortcuts;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -42,19 +43,40 @@ public class EditClassWindow {
 
         Pane mainPane = new VBox();
 
-
         classList = constructClassList(diagram);
-        Button addClass = new Button("New Class");
-        addClass.setOnAction(e -> {
+        Button newClass = new Button("New Class");
+        newClass.setOnAction(e -> {
             UMLClass newbie = new UMLClass();
             try {
-                diagram.addClass(newbie);
-                classList.getItems().setAll(diagram.getClasses());
-                classList.getSelectionModel().select(newbie);
-                if (diagram.getClasses().size() > 1) {
+                diagram.fullAddClass(newbie);
+                classList.getItems().add(newbie);
+                classList.getSelectionModel().clearSelection();
+                classList.getSelectionModel().select(diagram.getAllClasses().size() - 1);
+                if (diagram.getAllClasses().size() > 1) {
                     Shortcuts.setFixedHeight(classList, 60);
                 } else {
                     Shortcuts.setFixedHeight(classList, 30);
+                }
+            } catch (Exception exception) {
+                ErrorWindow.showError("Cannot add new class", exception.getMessage());
+            }
+        });
+
+        Button addClass = new Button("Add Existing Class");
+        addClass.setOnAction(e -> {
+            UMLClass newbie = null;
+            try {
+                newbie = SelectExistingClassWindow.selectExistingClass(diagram);
+                if(newbie != null) {
+                    diagram.addClass(newbie);
+                    classList.getItems().add(newbie);
+                    classList.getSelectionModel().clearSelection();
+                    classList.getSelectionModel().select(diagram.getAllClasses().size() - 1);
+                    if (diagram.getAllClasses().size() > 1) {
+                        Shortcuts.setFixedHeight(classList, 60);
+                    } else {
+                        Shortcuts.setFixedHeight(classList, 30);
+                    }
                 }
             } catch (Exception exception) {
                 ErrorWindow.showError("Cannot add new class", exception.getMessage());
@@ -65,9 +87,20 @@ public class EditClassWindow {
         deleteClass.setOnAction(e -> {
             UMLClass clazz = classList.getSelectionModel().getSelectedItem();
             diagram.deleteClass(clazz);
-            diagram.deleteRelationWithClass(clazz);
             classList.getItems().remove(clazz);
-            if (diagram.getClasses().size() > 1) {
+            if (diagram.getAllClasses().size() > 1) {
+                Shortcuts.setFixedHeight(classList, 60);
+            } else {
+                Shortcuts.setFixedHeight(classList, 30);
+            }
+        });
+
+        Button fullDeleteClass = new Button("Full Delete Selected Class");
+        fullDeleteClass.setOnAction(e -> {
+            UMLClass clazz = classList.getSelectionModel().getSelectedItem();
+            diagram.fullDeleteClass(clazz);
+            classList.getItems().remove(clazz);
+            if (diagram.getAllClasses().size() > 1) {
                 Shortcuts.setFixedHeight(classList, 60);
             } else {
                 Shortcuts.setFixedHeight(classList, 30);
@@ -76,7 +109,12 @@ public class EditClassWindow {
 
         editSpacePane = new Pane();
 
-        mainPane.getChildren().addAll(classList, addClass, deleteClass, editSpacePane);
+        Button closeButton = new Button("Save and Close");
+        closeButton.setOnAction(e -> {
+            window.close();
+        });
+
+        mainPane.getChildren().addAll(classList, newClass, addClass, deleteClass, fullDeleteClass, editSpacePane,closeButton);
 
         Scene scene = new Scene(mainPane, 500, 500);
 
@@ -117,9 +155,9 @@ public class EditClassWindow {
         HBox abstFieldBox = new HBox();
         Label abstLab = new Label("Abstract:");
         CheckBox isAbstract = new CheckBox();
-        isAbstract.setSelected(clazz.getIsAbstract());
+        isAbstract.setSelected(clazz.isAbstract());
         isAbstract.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            clazz.setIsAbstract(isAbstract.isSelected());
+            clazz.setAbstract(isAbstract.isSelected());
         });
         abstFieldBox.getChildren().addAll(abstLab, isAbstract);
 
@@ -217,19 +255,21 @@ public class EditClassWindow {
             @Override
             public void changed(ObservableValue<? extends UMLClass> observableValue, UMLClass umlClass, UMLClass t1) {
                 UMLClass select = classList.getSelectionModel().getSelectedItem();
-                setClassEditSpace(select);
+                if(select != null) {
+                    setClassEditSpace(select);
+                }
             }
         });
     }
 
     private ListView<UMLClass> constructClassList(UMLClassDiagram diagram) {
         ListView<UMLClass> classList = new ListView<>();
-        classList.getItems().setAll(diagram.getClasses());
+        classList.getItems().setAll(diagram.getAllClasses());
         setCellFactory(classList);
         setSetSelectionListener(classList);
         classList.setEditable(false);
         classList.setFixedCellSize(30);
-        if(diagram.getClasses().size() > 1) {
+        if(diagram.getAllClasses().size() > 1) {
             Shortcuts.setFixedHeight(classList,60);
         }
         else {

@@ -1,5 +1,6 @@
 package com.umleditor.view.pages.sequencediagram;
 
+import com.umleditor.model.UMLProject;
 import com.umleditor.model.common.interfaces.UMLDiagram;
 import com.umleditor.model.sequencediagram.UMLSequenceDiagram;
 import com.umleditor.view.pages.interfaces.DiagramEditSpace;
@@ -14,37 +15,14 @@ import javafx.scene.layout.Pane;
 //TODO: Implement
 public class SequenceDiagramEditSpace implements DiagramEditSpace {
 
-    private final Pane editSpace;
+    @Override
+    public void updateEditSpace(UMLProject project) {
 
-    public SequenceDiagramEditSpace(UMLDiagram diagram) {
-        if (diagram == null || diagram instanceof UMLSequenceDiagram) {
-            this.editSpace = constructNewEditSpace();
-            updateCurrentEditSpace((UMLSequenceDiagram) diagram);
-        } else {
-            throw new IllegalArgumentException("UMLDiagram is not Class Diagram");
-        }
     }
 
     @Override
     public Pane getEditSpace() {
-        return this.editSpace;
-    }
-
-    @Override
-    public void updateEditSpace(UMLDiagram diagram) {
-        if (diagram == null || diagram instanceof UMLSequenceDiagram) {
-            updateCurrentEditSpace((UMLSequenceDiagram) diagram);
-        } else {
-            throw new IllegalArgumentException("UMLDiagram is not Sequence Diagram");
-        }
-    }
-
-    private Pane constructNewEditSpace() {
         return null;
-    }
-
-    private void updateCurrentEditSpace(UMLSequenceDiagram diagram) {
-
     }
 }
 
