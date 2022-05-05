@@ -46,8 +46,7 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
         Button button = new Button();
         button.setText("New");
         button.setOnAction(event -> {
-            UMLClassDiagram diagram = project.createNewClassDiagram("Diagram " + (project.getClassDiagrams().size() + 1));
-            DemoDiagramConstructor.constructDemoProject(diagram);
+            project.createNewClassDiagram("Diagram " + (project.getClassDiagrams().size() + 1));
             selectedDiagram = project.getClassDiagrams().size() - 1;
             constructEditSpace();
         });
@@ -58,7 +57,10 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
         Button button = new Button();
         button.setText("Delete");
         button.setOnAction(event -> {
-            project.getClassDiagrams().remove(selectedDiagram);
+            try {
+                project.getClassDiagrams().remove(selectedDiagram);
+            }catch (Exception e) {}
+            selectedDiagram = 0;
             constructEditSpace();
         });
         return button;

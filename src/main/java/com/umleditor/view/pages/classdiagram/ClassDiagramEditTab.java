@@ -42,7 +42,7 @@ public class ClassDiagramEditTab {
         constructEditSpace();
     }
 
-    private TextField constructEditClassNameField() {
+    private TextField constructEditClassDiagramNameField() {
         TextField name = new TextField(this.diagram.getName());
         name.textProperty().addListener((o,ov,nv) -> {
             diagram.setName(name.getText());
@@ -75,7 +75,7 @@ public class ClassDiagramEditTab {
         Shortcuts.bindWidth(editMenu, editTab);
         editMenu.setStyle("-fx-background-color:" + AppContext.getProperty("edit-menu-color"));
 
-        editMenu.getChildren().add(constructEditClassNameField());
+        editMenu.getChildren().add(constructEditClassDiagramNameField());
         editMenu.getChildren().add(constructEditClassButton());
         editMenu.getChildren().add(constructEditRelationButton());
 

@@ -73,10 +73,6 @@ public class UMLSequenceDiagram extends UMLElement implements UMLDiagram {
                 ).collect(Collectors.toList());
     }
 
-    public boolean classNameExits(String name) {
-        return parentProject.classNameExists(name);
-    }
-
     public boolean objectNameExits(String name) {
         return parentProject.classNameExists(name) || actorNameExists(name);
     }
@@ -111,5 +107,37 @@ public class UMLSequenceDiagram extends UMLElement implements UMLDiagram {
 
     public void setAllObjects(List<UMLElement> allObjects) {
         this.allObjects = allObjects;
+    }
+
+    public void moveUpObject(UMLElement obj) {
+        int index = this.allObjects.indexOf(obj);
+        if(index != 0){
+            this.allObjects.set(index, this.allObjects.get(index - 1));
+            this.allObjects.set(index - 1, obj);
+        }
+    }
+
+    public void moveDownObject(UMLElement obj) {
+        int index = this.allObjects.indexOf(obj);
+        if(index != this.allObjects.size() - 1){
+            this.allObjects.set(index, this.allObjects.get(index + 1));
+            this.allObjects.set(index + 1, obj);
+        }
+    }
+
+    public void moveUpMessage(UMLMessage message) {
+        int index = this.allMessages.indexOf(message);
+        if(index != 0){
+            this.allMessages.set(index, this.allMessages.get(index - 1));
+            this.allMessages.set(index - 1, message);
+        }
+    }
+
+    public void moveDownMessage(UMLMessage message) {
+        int index = this.allMessages.indexOf(message);
+        if(index != this.allMessages.size() - 1){
+            this.allMessages.set(index, this.allMessages.get(index + 1));
+            this.allMessages.set(index + 1, message);
+        }
     }
 }

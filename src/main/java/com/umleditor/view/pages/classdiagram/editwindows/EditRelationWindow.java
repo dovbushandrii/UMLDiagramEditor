@@ -1,15 +1,16 @@
 package com.umleditor.view.pages.classdiagram.editwindows;
 
-import com.umleditor.model.classdiagram.UMLRelation;
 import com.umleditor.model.classdiagram.UMLClassDiagram;
+import com.umleditor.model.classdiagram.UMLRelation;
 import com.umleditor.model.classdiagram.enums.UMLRelationType;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.view.errorwindow.ErrorWindow;
 import com.umleditor.view.pages.interfaces.Shortcuts;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -17,10 +18,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-import java.util.Optional;
-
 /**
- * TODO: Comment
+ * Edit window for Class Diagram relations
  *
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
@@ -39,8 +38,8 @@ public class EditRelationWindow {
         Pane mainPane = new VBox();
 
         relationList = constructRelationList(diagram);
-        Button addClass = new Button("New Relation");
-        addClass.setOnAction(e -> {
+        Button addRelation = new Button("New Relation");
+        addRelation.setOnAction(e -> {
             if(diagram.getAllClasses().size() > 1) {
                 UMLRelation newbie = new UMLRelation();
                 newbie.setFrom(diagram.getAllClasses().get(0));
@@ -58,8 +57,8 @@ public class EditRelationWindow {
             }
         });
 
-        Button deleteClass = new Button("Delete Selected Relation");
-        deleteClass.setOnAction(e -> {
+        Button deleteRelation = new Button("Delete Selected Relation");
+        deleteRelation.setOnAction(e -> {
             UMLRelation relation = relationList.getSelectionModel().getSelectedItem();
             if(relation != null) {
                 diagram.deleteRelation(relation);
@@ -75,7 +74,10 @@ public class EditRelationWindow {
             window.close();
         });
 
-        mainPane.getChildren().addAll(relationList, addClass, deleteClass, closeButton);
+        HBox buttonMenu = new HBox();
+        buttonMenu.getChildren().addAll(addRelation, deleteRelation);
+
+        mainPane.getChildren().addAll(relationList, buttonMenu , closeButton);
 
         Scene scene = new Scene(mainPane, 670, 500);
 
@@ -175,7 +177,7 @@ public class EditRelationWindow {
 
         // From Class
         ListView<UMLClass> fromClass = constructClassList(diagram);
-        selectClass(fromClass,relation.getFrom());
+        fromClass.getSelectionModel().select(relation.getFrom());
 
         // Relation type
         ListView<UMLRelationType> types = constructRelationTypeList();
@@ -187,45 +189,36 @@ public class EditRelationWindow {
 
         // To Class
         ListView<UMLClass> toClass = constructClassList(diagram);
-        selectClass(toClass,relation.getTo());
+        toClass.getSelectionModel().select(relation.getTo());
 
         fromClass.getSelectionModel().selectedIndexProperty().addListener((o,ov,nv) -> {
             UMLClass selectFrom = fromClass.getSelectionModel().getSelectedItem();
             UMLClass selectTo = toClass.getSelectionModel().getSelectedItem();
-            /*
             if(diagram.relationExists(selectFrom,selectTo)) {
                 cell.setStyle("-fx-border-color: red");
             }
             else {
+                relation.setFrom(selectFrom);
                 cell.setStyle("-fx-border-color: transparent");
-            }*/
-            relation.setFrom(selectFrom);
+            }
+
         });
         toClass.getSelectionModel().selectedIndexProperty().addListener((o,ov,nv) -> {
             UMLClass selectFrom = fromClass.getSelectionModel().getSelectedItem();
             UMLClass selectTo = toClass.getSelectionModel().getSelectedItem();
-            /*
             if(diagram.relationExists(selectFrom,selectTo)) {
                 cell.setStyle("-fx-border-color: red");
             }
             else {
+                relation.setTo(selectTo);
                 cell.setStyle("-fx-border-color: transparent");
-            }*/
-            relation.setTo(selectTo);
+            }
+
         });
 
         cell.getChildren().addAll(fromClass,types,toClass);
 
         return cell;
-    }
-
-    private void selectClass(ListView<UMLClass> classes, UMLClass select){
-        Optional<UMLClass> found = classes.getItems().stream()
-                .filter(c -> c.getName().equals(select.getName()))
-                .findAny();
-        if(found.isPresent()) {
-            classes.getSelectionModel().select(found.get());
-        }
     }
 
     private void setRelationsCellFactory(ListView<UMLRelation> fieldList) {

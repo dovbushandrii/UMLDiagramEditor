@@ -1,6 +1,7 @@
 package com.umleditor.model.sequencediagram;
 
 import com.umleditor.model.common.UMLClass;
+import com.umleditor.model.common.UMLElement;
 
 /**
  * UML Sequence Diagram Message Element
@@ -9,23 +10,23 @@ import com.umleditor.model.common.UMLClass;
  * @author Anastasiia Oberemko xobere00
  */
 public class UMLMessage {
-    private UMLClass from;
-    private UMLClass to;
+    private UMLElement from;
+    private UMLElement to;
     private String message;
 
-    public UMLClass getFrom() {
+    public UMLElement getFrom() {
         return from;
     }
 
-    public void setFrom(UMLClass from) {
+    public void setFrom(UMLElement from) {
         this.from = from;
     }
 
-    public UMLClass getTo() {
+    public UMLElement getTo() {
         return to;
     }
 
-    public void setTo(UMLClass to) {
+    public void setTo(UMLElement to) {
         this.to = to;
     }
 
