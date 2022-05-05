@@ -37,11 +37,12 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
 
     public void fullDeleteClass(UMLClass toDelete) {
         parentProject.deleteClass(toDelete);
-        deleteClass(toDelete);
     }
 
     public void deleteClass(UMLClass toDelete) {
-        allClasses.remove(toDelete);
+        allClasses = allClasses.stream()
+                .filter(c -> !c.getName().equals(toDelete.getName()))
+                .collect(Collectors.toList());
         deleteRelationWithClass(toDelete);
     }
 

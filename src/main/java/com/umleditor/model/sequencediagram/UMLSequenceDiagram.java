@@ -9,10 +9,11 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * UML Sequence Diagram data type implementation
+ * UML Sequence Diagram class
  *
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
@@ -21,27 +22,56 @@ import java.util.stream.Collectors;
 public class UMLSequenceDiagram extends UMLElement implements UMLDiagram {
 
     private UMLProject parentProject = null;
-    private List<UMLClass> allClasses = new ArrayList<>();
     private List<UMLMessage> allMessages = new ArrayList<>();
 
-    public void addClass(UMLClass newClass) {
+    //Actors and Classes
+    private List<UMLElement> allObjects = new ArrayList<>();
+
+    @Override
+    public List<UMLClass> getAllClasses() {
+        return allObjects.stream()
+                .filter(o -> o instanceof UMLClass)
+                .map(o -> (UMLClass)o)
+                .collect(Collectors.toList());
     }
 
-    public void addRelation(UMLRelation relation) {
+    public void fullAddClass(UMLClass newClass) {
+        parentProject.addNewClass(newClass);
+        allObjects.add(newClass);
+    }
+
+    public void addObject(UMLElement element) {
+        allObjects.add(element);
+    }
+
+    public void addMessage(UMLMessage message) {
+        allMessages.add(message);
+    }
+
+    public void fullDeleteClass(UMLClass toDelete) {
+        parentProject.deleteClass(toDelete);
+        deleteObject(toDelete);
     }
 
     public void deleteClass(UMLClass toDelete) {
+        deleteObject(toDelete);
     }
 
-    public void deleteMessage(UMLMessage relation) {
+    public void deleteObject(UMLElement element) {
+        this.allObjects.remove(element);
+        deleteMessagesWithObject(element);
     }
 
-    public void deleteMessagesWithClass(UMLClass deleted) {
+    public void deleteMessage(UMLMessage message) {
+        this.allMessages.remove(message);
+    }
+
+    public void deleteMessagesWithObject(UMLElement deleted) {
         this.allMessages = this.allMessages.stream()
-                .filter(r ->
+                .filter(m ->
                         !(      //<==== NOT
-                                r.getTo().getName().equals(deleted.getName()) ||
-                                        r.getFrom().getName().equals(deleted.getName())
+                                m.getTo().getName().equals(deleted.getName()) ||
+                                        m.getFrom().getName().equals(deleted.getName())
                         )
                 ).collect(Collectors.toList());
     }
@@ -50,7 +80,15 @@ public class UMLSequenceDiagram extends UMLElement implements UMLDiagram {
         return parentProject.classNameExists(name);
     }
 
-    public boolean messageExists(UMLClass from, UMLClass to) {
-        return false;
+    public boolean objectNameExits(String name) {
+        return parentProject.classNameExists(name) || actorNameExists(name);
+    }
+
+    private boolean actorNameExists(String name) {
+        Optional<UMLElement> found = this.allObjects.stream()
+                .filter(o -> o instanceof UMLActor)
+                .filter(a -> a.getName().equals(name))
+                .findAny();
+        return found.isPresent();
     }
 }

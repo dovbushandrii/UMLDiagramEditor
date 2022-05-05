@@ -6,10 +6,10 @@ import com.umleditor.model.common.UMLClassAttribute;
 import com.umleditor.model.common.UMLClassMethod;
 import com.umleditor.model.common.enums.UMLElementModifier;
 import com.umleditor.view.errorwindow.ErrorWindow;
-import com.umleditor.view.pages.classdiagram.SelectExistingClassWindow;
 import com.umleditor.view.pages.interfaces.Shortcuts;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -22,7 +22,7 @@ import javafx.util.Callback;
 import java.util.List;
 
 /**
- * TODO: Comment
+ * Window to edit classes in UML Class Diagram
  *
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
@@ -34,87 +34,18 @@ public class EditClassWindow {
     private ListView<UMLClass> classList;
     private UMLClassDiagram diagram;
 
-    public EditClassWindow(UMLClassDiagram diagram) {
+    public EditClassWindow(UMLClassDiagram newDiagram) {
 
-        this.diagram = diagram;
+        this.diagram = newDiagram;
 
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
 
         Pane mainPane = new VBox();
 
-        classList = constructClassList(diagram);
-        Button newClass = new Button("New Class");
-        newClass.setOnAction(e -> {
-            UMLClass newbie = new UMLClass();
-            try {
-                diagram.fullAddClass(newbie);
-                classList.getItems().add(newbie);
-                classList.getSelectionModel().clearSelection();
-                classList.getSelectionModel().select(diagram.getAllClasses().size() - 1);
-                if (diagram.getAllClasses().size() > 1) {
-                    Shortcuts.setFixedHeight(classList, 60);
-                } else {
-                    Shortcuts.setFixedHeight(classList, 30);
-                }
-            } catch (Exception exception) {
-                ErrorWindow.showError("Cannot add new class", exception.getMessage());
-            }
-        });
-
-        Button addClass = new Button("Add Existing Class");
-        addClass.setOnAction(e -> {
-            UMLClass newbie = null;
-            try {
-                newbie = SelectExistingClassWindow.selectExistingClass(diagram);
-                if(newbie != null) {
-                    diagram.addClass(newbie);
-                    classList.getItems().add(newbie);
-                    classList.getSelectionModel().clearSelection();
-                    classList.getSelectionModel().select(diagram.getAllClasses().size() - 1);
-                    if (diagram.getAllClasses().size() > 1) {
-                        Shortcuts.setFixedHeight(classList, 60);
-                    } else {
-                        Shortcuts.setFixedHeight(classList, 30);
-                    }
-                }
-            } catch (Exception exception) {
-                ErrorWindow.showError("Cannot add new class", exception.getMessage());
-            }
-        });
-
-        Button deleteClass = new Button("Delete Selected Class");
-        deleteClass.setOnAction(e -> {
-            UMLClass clazz = classList.getSelectionModel().getSelectedItem();
-            diagram.deleteClass(clazz);
-            classList.getItems().remove(clazz);
-            if (diagram.getAllClasses().size() > 1) {
-                Shortcuts.setFixedHeight(classList, 60);
-            } else {
-                Shortcuts.setFixedHeight(classList, 30);
-            }
-        });
-
-        Button fullDeleteClass = new Button("Full Delete Selected Class");
-        fullDeleteClass.setOnAction(e -> {
-            UMLClass clazz = classList.getSelectionModel().getSelectedItem();
-            diagram.fullDeleteClass(clazz);
-            classList.getItems().remove(clazz);
-            if (diagram.getAllClasses().size() > 1) {
-                Shortcuts.setFixedHeight(classList, 60);
-            } else {
-                Shortcuts.setFixedHeight(classList, 30);
-            }
-        });
-
         editSpacePane = new Pane();
 
-        Button closeButton = new Button("Save and Close");
-        closeButton.setOnAction(e -> {
-            window.close();
-        });
-
-        mainPane.getChildren().addAll(classList, newClass, addClass, deleteClass, fullDeleteClass, editSpacePane,closeButton);
+        mainPane.getChildren().addAll(buildClassSelectionAccordion(), editSpacePane, buildCloseWindowButton());
 
         Scene scene = new Scene(mainPane, 500, 500);
 
@@ -129,44 +60,155 @@ public class EditClassWindow {
         window.showAndWait();
     }
 
+    private Node buildCloseWindowButton() {
+        Button closeButton = new Button("Save and Close");
+        closeButton.setOnAction(e -> {
+            window.close();
+        });
+        return closeButton;
+    }
+
+    private Node buildClassSelectionAccordion() {
+        classList = constructClassList(diagram);
+
+        VBox selectionSpace = new VBox();
+        selectionSpace.getChildren().addAll(classList,buildClassSelectionButtons());
+
+        Accordion accordion = new Accordion();
+        TitledPane classListAccordion = new TitledPane("Diagram Classes", selectionSpace);
+        accordion.getPanes().add(classListAccordion);
+
+        classList.getSelectionModel().selectedIndexProperty().addListener((o,ov,nv) -> {
+            UMLClass selected = classList.getSelectionModel().getSelectedItem();
+            if(selected != null) {
+                classListAccordion.setText(selected.getName());
+            }
+            else {
+                classListAccordion.setText("Diagram Classes");
+            }
+        });
+
+        return accordion;
+    }
+
+    private Pane buildClassSelectionButtons() {
+        HBox editClassListMenu = new HBox();
+        Button newClass = new Button("New Class");
+        newClass.setOnAction(e -> {
+            UMLClass newbie = new UMLClass();
+            try {
+                diagram.fullAddClass(newbie);
+                classList.getItems().setAll(diagram.getAllClasses());
+                classList.refresh();
+                classList.getSelectionModel().select(classList.getItems().size() - 1);
+                Shortcuts.setFixedHeight(classList, 30 * diagram.getAllClasses().size());
+            } catch (Exception exception) {
+                ErrorWindow.showError("Cannot add new class", exception.getMessage());
+            }
+        });
+
+        Button addClass = new Button("Add Existing Class");
+        addClass.setOnAction(e -> {
+            UMLClass newbie;
+            try {
+                newbie = SelectExistingClassWindow.selectExistingClass(diagram);
+                if (newbie != null) {
+                    diagram.addClass(newbie);
+                    classList.getItems().setAll(diagram.getAllClasses());
+                    classList.refresh();
+                    classList.getSelectionModel().select(classList.getItems().size() - 1);
+                    Shortcuts.setFixedHeight(classList, 30 * diagram.getAllClasses().size());
+                }
+            } catch (Exception exception) {
+                ErrorWindow.showError("Cannot add new class", exception.getMessage());
+            }
+        });
+
+        Button deleteClass = new Button("Delete Selected Class");
+        deleteClass.setOnAction(e -> {
+            int index = classList.getSelectionModel().getSelectedIndex();
+            if(index >= 0) {
+                UMLClass clazz = classList.getItems().get(index);
+                diagram.deleteClass(clazz);
+                classList.getItems().setAll(diagram.getAllClasses());
+                classList.refresh();
+                Shortcuts.setFixedHeight(classList, 30 * diagram.getAllClasses().size());
+            }
+        });
+
+        Button fullDeleteClass = new Button("Full Delete Selected Class");
+        fullDeleteClass.setOnAction(e -> {
+            int index = classList.getSelectionModel().getSelectedIndex();
+            if(index >= 0) {
+                UMLClass clazz = classList.getItems().get(index);
+                diagram.fullDeleteClass(clazz);
+                classList.getItems().setAll(diagram.getAllClasses());
+                classList.refresh();
+                Shortcuts.setFixedHeight(classList, 30 * diagram.getAllClasses().size());
+            }
+        });
+
+        editClassListMenu.getChildren().addAll(newClass, addClass, deleteClass, fullDeleteClass);
+
+        return editClassListMenu;
+    }
+
     private Pane buildClassEditSpace(UMLClass clazz) {
         VBox newEditSpace = new VBox();
-        Shortcuts.bindWidth(newEditSpace,window);
-        Shortcuts.bindHeight(newEditSpace,window);
+        Shortcuts.bindWidth(newEditSpace, window);
+        Shortcuts.bindHeight(newEditSpace, window);
 
         // Name edit line
+        newEditSpace.getChildren().addAll(buildNameEditField(clazz));
+
+        // Abstract checkbox line
+        newEditSpace.getChildren().addAll(buildAbstractCheckbox(clazz));
+
+        // Fields List
+        newEditSpace.getChildren().addAll(buildFieldsEdit(clazz));
+
+        // Methods List
+        newEditSpace.getChildren().addAll(buildMethodEdit(clazz));
+
+        return newEditSpace;
+    }
+
+    private Pane buildNameEditField(UMLClass clazz) {
         HBox nameFieldBox = new HBox();
         Label nameLab = new Label("Name:");
         TextField nameField = new TextField(clazz.getName());
         nameField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if(!diagram.classNameExits(nameField.getText())) {
+            if (!diagram.classNameExits(nameField.getText())) {
                 clazz.setName(nameField.getText());
                 nameField.setStyle("-fx-border-color: green");
-            }
-            else {
+            } else {
                 nameField.setStyle("-fx-border-color: red");
             }
         });
         nameFieldBox.getChildren().addAll(nameLab, nameField);
+        return nameFieldBox;
+    }
 
-        newEditSpace.getChildren().addAll(nameFieldBox);
-
-        // Abstract checkbox line
-        HBox abstFieldBox = new HBox();
-        Label abstLab = new Label("Abstract:");
+    private Pane buildAbstractCheckbox(UMLClass clazz) {
+        HBox abstractFieldBox = new HBox();
+        Label abstractLabel = new Label("Abstract:");
         CheckBox isAbstract = new CheckBox();
         isAbstract.setSelected(clazz.isAbstract());
         isAbstract.selectedProperty().addListener((observable, oldValue, newValue) -> {
             clazz.setAbstract(isAbstract.isSelected());
         });
-        abstFieldBox.getChildren().addAll(abstLab, isAbstract);
+        abstractFieldBox.getChildren().addAll(abstractLabel, isAbstract);
+        return abstractFieldBox;
+    }
 
-        newEditSpace.getChildren().addAll(abstFieldBox);
+    private Pane buildFieldsEdit(UMLClass clazz) {
+        VBox fieldsEditPane = new VBox();
 
-        // Fields List
         Label fieldsTitle = new Label("Fields:");
 
         ListView<UMLClassAttribute> fields = constructsFieldsList(clazz.getFields());
+
+        HBox fieldEditMenu = new HBox();
 
         Button addField = new Button("New Field");
         addField.setOnAction(e -> {
@@ -188,11 +230,19 @@ public class EditClassWindow {
             fields.setMaxHeight(height);
         });
 
-        newEditSpace.getChildren().addAll(fieldsTitle, fields, addField,deleteField);
-        // Methods List
-        Label methodsTitle = new Label("Fields:");
+        fieldEditMenu.getChildren().addAll(addField, deleteField);
+
+        fieldsEditPane.getChildren().addAll(fieldsTitle, fields, fieldEditMenu);
+        return fieldsEditPane;
+    }
+
+    private Pane buildMethodEdit(UMLClass clazz) {
+        VBox methodEditPane = new VBox();
+        Label methodsTitle = new Label("Methods:");
 
         ListView<UMLClassMethod> methods = constructsMethodsList(clazz.getMethods());
+
+        HBox methodEditMenu = new HBox();
 
         Button addMethod = new Button("New Method");
         addMethod.setOnAction(e -> {
@@ -214,9 +264,11 @@ public class EditClassWindow {
             methods.setMaxHeight(height);
         });
 
-        newEditSpace.getChildren().addAll(methodsTitle, methods, addMethod,deleteMethod);
+        methodEditMenu.getChildren().addAll(addMethod, deleteMethod);
 
-        return newEditSpace;
+        methodEditPane.getChildren().addAll(methodsTitle, methods, methodEditMenu);
+
+        return methodEditPane;
     }
 
     private void setClassEditSpace(UMLClass clazz) {
@@ -230,7 +282,7 @@ public class EditClassWindow {
                 ListCell<UMLClass>>() {
             @Override
             public ListCell<UMLClass> call(ListView<UMLClass> list) {
-                return new ListCell<UMLClass>(){
+                return new ListCell<UMLClass>() {
                     @Override
                     public void updateItem(UMLClass clazz, boolean empty) {
                         super.updateItem(clazz, empty);
@@ -251,13 +303,10 @@ public class EditClassWindow {
     }
 
     private void setSetSelectionListener(ListView<UMLClass> classList) {
-        classList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<UMLClass>() {
-            @Override
-            public void changed(ObservableValue<? extends UMLClass> observableValue, UMLClass umlClass, UMLClass t1) {
-                UMLClass select = classList.getSelectionModel().getSelectedItem();
-                if(select != null) {
-                    setClassEditSpace(select);
-                }
+        classList.getSelectionModel().selectedIndexProperty().addListener((o,ov,nv) -> {
+            UMLClass select = classList.getSelectionModel().getSelectedItem();
+            if(select != null) {
+                setClassEditSpace(select);
             }
         });
     }
@@ -267,14 +316,8 @@ public class EditClassWindow {
         classList.getItems().setAll(diagram.getAllClasses());
         setCellFactory(classList);
         setSetSelectionListener(classList);
-        classList.setEditable(false);
         classList.setFixedCellSize(30);
-        if(diagram.getAllClasses().size() > 1) {
-            Shortcuts.setFixedHeight(classList,60);
-        }
-        else {
-            Shortcuts.setFixedHeight(classList,30);
-        }
+        Shortcuts.setFixedHeight(classList, 30 * diagram.getAllClasses().size());
         return classList;
     }
 
@@ -299,7 +342,7 @@ public class EditClassWindow {
         modifiers.setCellFactory(new Callback<ListView<UMLElementModifier>, ListCell<UMLElementModifier>>() {
             @Override
             public ListCell<UMLElementModifier> call(ListView<UMLElementModifier> umlElementModifierListView) {
-                return new ListCell<UMLElementModifier>(){
+                return new ListCell<UMLElementModifier>() {
                     @Override
                     public void updateItem(UMLElementModifier modifier, boolean empty) {
                         super.updateItem(modifier, empty);
@@ -339,7 +382,7 @@ public class EditClassWindow {
 
         // Field Name
         TextField name = new TextField(field.getName());
-        name.textProperty().addListener((o,ov,nv) -> {
+        name.textProperty().addListener((o, ov, nv) -> {
             field.setName(name.getText());
         });
 
@@ -347,10 +390,10 @@ public class EditClassWindow {
 
         // Field Type
         TextField type = new TextField(field.getType());
-        type.textProperty().addListener((o,ov,nv) -> {
+        type.textProperty().addListener((o, ov, nv) -> {
             field.setType(type.getText());
         });
-        cell.getChildren().addAll(modifiers,name,semiCol,type);
+        cell.getChildren().addAll(modifiers, name, semiCol, type);
 
         return cell;
     }
@@ -359,7 +402,7 @@ public class EditClassWindow {
         fieldList.setCellFactory(new Callback<ListView<UMLClassAttribute>, ListCell<UMLClassAttribute>>() {
             @Override
             public ListCell<UMLClassAttribute> call(ListView<UMLClassAttribute> umlClassAttributeListView) {
-                return new ListCell<UMLClassAttribute>(){
+                return new ListCell<UMLClassAttribute>() {
                     @Override
                     public void updateItem(UMLClassAttribute field, boolean empty) {
                         super.updateItem(field, empty);
@@ -410,13 +453,13 @@ public class EditClassWindow {
 
         // Field Type
         TextField type = new TextField(method.getType());
-        type.textProperty().addListener((o,ov,nv) -> {
+        type.textProperty().addListener((o, ov, nv) -> {
             method.setType(type.getText());
         });
 
         // Field Name
         TextField name = new TextField(method.getName());
-        name.textProperty().addListener((o,ov,nv) -> {
+        name.textProperty().addListener((o, ov, nv) -> {
             method.setName(name.getText());
         });
 
@@ -427,7 +470,7 @@ public class EditClassWindow {
 
         Label rbr = new Label(")");
 
-        cell.getChildren().addAll(modifiers,type,name,lbr,args, rbr);
+        cell.getChildren().addAll(modifiers, type, name, lbr, args, rbr);
         return cell;
     }
 
@@ -438,35 +481,35 @@ public class EditClassWindow {
 
         List<String> argsVals = method.getArgumentTypes();
 
-        for(int i = 0; i < argsVals.size(); i++) {
+        for (int i = 0; i < argsVals.size(); i++) {
             TextField argument = new TextField(argsVals.get(i));
             argument.setMaxWidth(70);
             args.getChildren().add(argument);
-            argument.textProperty().addListener((o,ov,nv) -> {
+            argument.textProperty().addListener((o, ov, nv) -> {
                 int index = args.getChildren().indexOf(argument);
                 method.getArgumentTypes().set(index, argument.getText());
             });
         }
 
-        Button addButton =new Button("+");
+        Button addButton = new Button("+");
         addButton.setOnAction(e -> {
             TextField argument = new TextField("");
             argument.setMaxWidth(70);
             args.getChildren().add(argument);
             method.getArgumentTypes().add("");
-            argument.textProperty().addListener((o,ov,nv) -> {
+            argument.textProperty().addListener((o, ov, nv) -> {
                 int index = args.getChildren().indexOf(argument);
                 method.getArgumentTypes().set(index, argument.getText());
             });
         });
-        Button removeButton =new Button("-");
+        Button removeButton = new Button("-");
         removeButton.setOnAction(e -> {
             args.getChildren().remove(args.getChildren().size() - 1);
             method.getArgumentTypes().remove(method.getArgumentTypes().size() - 1);
             System.out.println(method.getArgumentTypes().size());
         });
 
-        argsBox.getChildren().addAll(args,addButton,removeButton);
+        argsBox.getChildren().addAll(args, addButton, removeButton);
         return argsBox;
     }
 
@@ -474,7 +517,7 @@ public class EditClassWindow {
         fieldList.setCellFactory(new Callback<ListView<UMLClassMethod>, ListCell<UMLClassMethod>>() {
             @Override
             public ListCell<UMLClassMethod> call(ListView<UMLClassMethod> umlClassAttributeListView) {
-                return new ListCell<UMLClassMethod>(){
+                return new ListCell<UMLClassMethod>() {
                     @Override
                     public void updateItem(UMLClassMethod method, boolean empty) {
                         super.updateItem(method, empty);

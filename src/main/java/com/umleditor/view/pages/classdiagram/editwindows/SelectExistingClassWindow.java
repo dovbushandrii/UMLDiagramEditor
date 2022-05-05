@@ -1,14 +1,9 @@
-package com.umleditor.view.pages.classdiagram;
+package com.umleditor.view.pages.classdiagram.editwindows;
 
 import com.umleditor.context.AppContext;
 import com.umleditor.model.UMLProject;
-import com.umleditor.model.classdiagram.UMLClassDiagram;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.interfaces.UMLDiagram;
-import com.umleditor.view.errorwindow.ErrorWindow;
-import com.umleditor.view.pages.interfaces.Shortcuts;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,6 +18,7 @@ import javafx.util.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SelectExistingClassWindow {
 
@@ -36,10 +32,18 @@ public class SelectExistingClassWindow {
             constructBlankWindow();
             return null;
         } else {
-            List<UMLClass> diff = new ArrayList<>(project.getAllClasses());
-            diff.removeAll(notFromHere);
-            return selectClassFromWindow(diff);
+            return selectClassFromWindow(substractClasses(project.getAllClasses(), notFromHere));
         }
+    }
+
+    private static List<UMLClass> substractClasses(List<UMLClass> from, List<UMLClass> substract) {
+        List<UMLClass> result = new ArrayList<>(from);
+        for(UMLClass toDelete : substract) {
+            result = result.stream()
+                    .filter(c -> !c.getName().equals(toDelete.getName()))
+                    .collect(Collectors.toList());
+        }
+        return result;
     }
 
     private static void constructBlankWindow() {

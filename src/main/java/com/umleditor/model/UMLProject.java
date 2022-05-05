@@ -9,6 +9,7 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Data
 public class UMLProject {
@@ -29,11 +30,22 @@ public class UMLProject {
 
     public void deleteClass(UMLClass umlClass) {
         deleteClassInChildren(umlClass);
-        allClasses.remove(umlClass);
+        allClasses = allClasses.stream()
+                .filter(c -> !c.getName().equals(umlClass.getName()))
+                .collect(Collectors.toList());
     }
 
     private void deleteClassInChildren(UMLClass umlClass) {
+        deleteClassInCDiagrams(umlClass);
+        deleteClassInSDiagrams(umlClass);
+    }
 
+    private void deleteClassInCDiagrams(UMLClass umlClass) {
+        classDiagrams.forEach(cd -> cd.deleteClass(umlClass));
+    }
+
+    private void deleteClassInSDiagrams(UMLClass umlClass) {
+        sequenceDiagrams.forEach(sd -> sd.deleteClass(umlClass));
     }
 
     public boolean classNameExists(String name) {

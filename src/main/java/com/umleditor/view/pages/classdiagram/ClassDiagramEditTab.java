@@ -10,6 +10,7 @@ import com.umleditor.view.pages.interfaces.Shortcuts;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -27,8 +28,8 @@ public class ClassDiagramEditTab {
 
     public ClassDiagramEditTab(UMLClassDiagram diagram) {
         this.editTab = new VBox();
-        constructNewEditSpace();
         this.diagram = diagram;
+        constructNewEditSpace();
         updateCurrentEditSpace();
     }
 
@@ -39,6 +40,14 @@ public class ClassDiagramEditTab {
     private void constructNewEditSpace() {
         constructEditMenu();
         constructEditSpace();
+    }
+
+    private TextField constructEditClassNameField() {
+        TextField name = new TextField(this.diagram.getName());
+        name.textProperty().addListener((o,ov,nv) -> {
+            diagram.setName(name.getText());
+        });
+        return name;
     }
 
     private Button constructEditClassButton() {
@@ -66,6 +75,7 @@ public class ClassDiagramEditTab {
         Shortcuts.bindWidth(editMenu, editTab);
         editMenu.setStyle("-fx-background-color:" + AppContext.getProperty("edit-menu-color"));
 
+        editMenu.getChildren().add(constructEditClassNameField());
         editMenu.getChildren().add(constructEditClassButton());
         editMenu.getChildren().add(constructEditRelationButton());
 
