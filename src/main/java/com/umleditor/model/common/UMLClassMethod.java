@@ -1,7 +1,6 @@
 package com.umleditor.model.common;
 
 import com.umleditor.model.common.enums.UMLElementModifier;
-import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.List;
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
  */
-@Data
 public class UMLClassMethod extends UMLClassAttribute {
     private List<String> argumentTypes = new ArrayList<>();
 
@@ -25,5 +23,13 @@ public class UMLClassMethod extends UMLClassAttribute {
         this.argumentTypes = argumentTypes;
         this.modifier = modifier;
         this.type = type;
+    }
+
+    public List<String> getArgumentTypes() {
+        return argumentTypes;
+    }
+
+    public void setArgumentTypes(List<String> argumentTypes) {
+        this.argumentTypes = argumentTypes;
     }
 }

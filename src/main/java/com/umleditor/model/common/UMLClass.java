@@ -1,9 +1,5 @@
 package com.umleditor.model.common;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +9,6 @@ import java.util.List;
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
  */
-@Data
 public class UMLClass extends UMLElement {
 
     private boolean isAbstract = false;
@@ -34,5 +29,29 @@ public class UMLClass extends UMLElement {
 
     public void deleteMethod(UMLClassMethod method) {
         this.methods.remove(method);
+    }
+
+    public void setAbstract(boolean anAbstract) {
+        isAbstract = anAbstract;
+    }
+
+    public void setFields(List<UMLClassAttribute> fields) {
+        this.fields = fields;
+    }
+
+    public void setMethods(List<UMLClassMethod> methods) {
+        this.methods = methods;
+    }
+
+    public boolean isAbstract() {
+        return isAbstract;
+    }
+
+    public List<UMLClassAttribute> getFields() {
+        return fields;
+    }
+
+    public List<UMLClassMethod> getMethods() {
+        return methods;
     }
 }
