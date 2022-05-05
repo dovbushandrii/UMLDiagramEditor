@@ -4,20 +4,34 @@ import com.umleditor.model.classdiagram.UMLClassDiagram;
 import com.umleditor.model.classdiagram.exceptions.ClassIsAlreadyDefinedException;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.sequencediagram.UMLSequenceDiagram;
-import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Data
 public class UMLProject {
 
     private String name = "";
     private List<UMLClass> allClasses = new ArrayList<>();
     private List<UMLClassDiagram> classDiagrams = new ArrayList<>();
     private List<UMLSequenceDiagram> sequenceDiagrams = new ArrayList<>();
+
+    public String getName() {
+        return name;
+    }
+
+    public List<UMLClass> getAllClasses() {
+        return allClasses;
+    }
+
+    public List<UMLClassDiagram> getClassDiagrams() {
+        return classDiagrams;
+    }
+
+    public List<UMLSequenceDiagram> getSequenceDiagrams() {
+        return sequenceDiagrams;
+    }
 
     public void addNewClass(UMLClass umlClass) {
         if(!classNameExists(umlClass.getName())) {
@@ -30,9 +44,7 @@ public class UMLProject {
 
     public void deleteClass(UMLClass umlClass) {
         deleteClassInChildren(umlClass);
-        allClasses = allClasses.stream()
-                .filter(c -> !c.getName().equals(umlClass.getName()))
-                .collect(Collectors.toList());
+        allClasses.remove(umlClass);
     }
 
     private void deleteClassInChildren(UMLClass umlClass) {
@@ -65,6 +77,22 @@ public class UMLProject {
 
     public void deleteClassDiagram(UMLClassDiagram diagram) {
         classDiagrams.remove(diagram);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAllClasses(List<UMLClass> allClasses) {
+        this.allClasses = allClasses;
+    }
+
+    public void setClassDiagrams(List<UMLClassDiagram> classDiagrams) {
+        this.classDiagrams = classDiagrams;
+    }
+
+    public void setSequenceDiagrams(List<UMLSequenceDiagram> sequenceDiagrams) {
+        this.sequenceDiagrams = sequenceDiagrams;
     }
 
     public UMLSequenceDiagram createNewSequenceDiagram(String diagramName) {

@@ -1,10 +1,10 @@
 package com.umleditor.model.classdiagram;
 
 import com.umleditor.model.UMLProject;
+import com.umleditor.model.classdiagram.enums.UMLRelationType;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.UMLElement;
 import com.umleditor.model.common.interfaces.UMLDiagram;
-import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +19,36 @@ import java.util.stream.Collectors;
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
  */
-@Data
 public class UMLClassDiagram extends UMLElement implements UMLDiagram {
 
     private UMLProject parentProject = null;
     private List<UMLClass> allClasses = new ArrayList<>();
     private List<UMLRelation> allRelations = new ArrayList<>();
+
+    public UMLProject getParentProject() {
+        return parentProject;
+    }
+
+    public void setParentProject(UMLProject parentProject) {
+        this.parentProject = parentProject;
+    }
+
+    @Override
+    public List<UMLClass> getAllClasses() {
+        return allClasses;
+    }
+
+    public void setAllClasses(List<UMLClass> allClasses) {
+        this.allClasses = allClasses;
+    }
+
+    public List<UMLRelation> getAllRelations() {
+        return allRelations;
+    }
+
+    public void setAllRelations(List<UMLRelation> allRelations) {
+        this.allRelations = allRelations;
+    }
 
     public void fullAddClass(UMLClass newClass) {
         parentProject.addNewClass(newClass);
@@ -40,14 +64,17 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
     }
 
     public void deleteClass(UMLClass toDelete) {
-        allClasses = allClasses.stream()
-                .filter(c -> !c.getName().equals(toDelete.getName()))
-                .collect(Collectors.toList());
+        allClasses.remove(toDelete);
         deleteRelationWithClass(toDelete);
     }
 
     public void addRelation(UMLRelation relation) {
         allRelations.add(relation);
+    }
+
+    public void addRelation(UMLClass from, UMLClass to, UMLRelationType type) {
+        UMLRelation newbie = new UMLRelation(from,to,type);
+        allRelations.add(newbie);
     }
 
     public void deleteRelation(UMLRelation relation) {
