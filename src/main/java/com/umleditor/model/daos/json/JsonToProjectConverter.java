@@ -18,6 +18,12 @@ import org.json.simple.parser.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Converter From JSON string tp UMLProject object
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ */
 public class JsonToProjectConverter {
     public static UMLProject jsonToProject(String json) throws ParseException {
         UMLProject newProject = new UMLProject();

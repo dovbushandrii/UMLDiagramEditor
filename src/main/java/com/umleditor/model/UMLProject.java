@@ -8,8 +8,15 @@ import com.umleditor.model.sequencediagram.UMLSequenceDiagram;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+/**
+ * UML Project Class
+ * Contains all existing classes and diagrams,
+ * Connects classes within diagrams
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ */
 public class UMLProject {
 
     private String name = "";
