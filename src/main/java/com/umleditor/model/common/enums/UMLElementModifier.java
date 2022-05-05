@@ -1,5 +1,7 @@
 package com.umleditor.model.common.enums;
 
+import java.util.NoSuchElementException;
+
 /**
  * UML Attribute Modifiers
  * @author Andrii Dovbush xdovbu00
@@ -19,5 +21,14 @@ public enum UMLElementModifier {
 
     public String getModifierSymbol() {
         return modifierSymbol;
+    }
+
+    public static UMLElementModifier getModifierBySymbol(String symbol) {
+        for (UMLElementModifier value : values()) {
+            if(value.getModifierSymbol().equals(symbol)) {
+                return value;
+            }
+        }
+        throw new NoSuchElementException();
     }
 }

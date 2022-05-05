@@ -46,7 +46,7 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
         Button button = new Button();
         button.setText("New");
         button.setOnAction(event -> {
-            project.createNewClassDiagram("Diagram " + (project.getClassDiagrams().size() + 1));
+            UMLClassDiagram diagram = project.createNewClassDiagram("Diagram " + (project.getClassDiagrams().size() + 1));
             selectedDiagram = project.getClassDiagrams().size() - 1;
             constructEditSpace();
         });

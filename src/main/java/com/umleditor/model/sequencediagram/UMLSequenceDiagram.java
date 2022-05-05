@@ -105,6 +105,13 @@ public class UMLSequenceDiagram extends UMLElement implements UMLDiagram {
         return allObjects;
     }
 
+    public List<UMLActor> getAllActors() {
+        return allObjects.stream()
+                .filter(e -> e instanceof UMLActor)
+                .map(e -> (UMLActor) e)
+                .collect(Collectors.toList());
+    }
+
     public void setAllObjects(List<UMLElement> allObjects) {
         this.allObjects = allObjects;
     }

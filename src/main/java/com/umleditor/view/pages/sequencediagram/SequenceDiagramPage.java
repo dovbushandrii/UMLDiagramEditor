@@ -18,7 +18,6 @@ import javafx.scene.layout.VBox;
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
  */
-//TODO: Implement
 public class SequenceDiagramPage implements ProjectDependentPage {
 
     private UMLProject project;
