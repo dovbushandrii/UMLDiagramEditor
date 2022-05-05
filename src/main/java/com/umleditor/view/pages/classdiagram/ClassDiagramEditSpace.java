@@ -1,5 +1,6 @@
 package com.umleditor.view.pages.classdiagram;
 
+import com.umleditor.DemoDiagramConstructor;
 import com.umleditor.model.UMLProject;
 import com.umleditor.model.classdiagram.UMLClassDiagram;
 import com.umleditor.view.pages.interfaces.DiagramEditSpace;
@@ -45,7 +46,8 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
         Button button = new Button();
         button.setText("New");
         button.setOnAction(event -> {
-            project.createNewClassDiagram("Diagram " + (project.getClassDiagrams().size() + 1));
+            UMLClassDiagram diagram = project.createNewClassDiagram("Diagram " + (project.getClassDiagrams().size() + 1));
+            DemoDiagramConstructor.constructDemoProject(diagram);
             selectedDiagram = project.getClassDiagrams().size() - 1;
             constructEditSpace();
         });

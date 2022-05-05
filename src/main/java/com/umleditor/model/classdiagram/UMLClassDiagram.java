@@ -1,6 +1,7 @@
 package com.umleditor.model.classdiagram;
 
 import com.umleditor.model.UMLProject;
+import com.umleditor.model.classdiagram.enums.UMLRelationType;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.UMLElement;
 import com.umleditor.model.common.interfaces.UMLDiagram;
@@ -50,8 +51,17 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
         allRelations.add(relation);
     }
 
+    public void addRelation(UMLClass from, UMLClass to, UMLRelationType type) {
+        UMLRelation newbie = new UMLRelation(from,to,type);
+        allRelations.add(newbie);
+    }
+
     public void deleteRelation(UMLRelation relation) {
-        allRelations.remove(relation);
+        allRelations = allRelations.stream()
+                .filter(r -> r.getTo().getName().equals(relation.getTo().getName())
+                        && r.getFrom().getName().equals(relation.getFrom().getName())
+                        && r.getType().equals(relation.getType()))
+                .collect(Collectors.toList());
     }
 
     private void deleteRelationWithClass(UMLClass deleted) {

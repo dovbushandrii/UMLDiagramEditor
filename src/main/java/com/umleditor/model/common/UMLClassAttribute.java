@@ -11,6 +11,16 @@ import lombok.Data;
  */
 @Data
 public class UMLClassAttribute extends UMLElement {
-    private UMLElementModifier modifier = UMLElementModifier.PRIVATE;
+    protected UMLElementModifier modifier = UMLElementModifier.PRIVATE;
     protected String type = "";
+
+    public UMLClassAttribute() {
+        super();
+    }
+
+    public UMLClassAttribute(String name, UMLElementModifier modifier, String type) {
+        this.name = name;
+        this.modifier = modifier;
+        this.type = type;
+    }
 }

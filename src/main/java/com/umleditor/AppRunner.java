@@ -18,7 +18,6 @@ public class AppRunner extends Application {
     public void start(Stage primaryStage) {
         try {
             AppConfig.initializeContext();
-            //DiagramLoadController.saveDiagram(DemoDiagramConstructor.constructDemoDiagram());
             MainWindow.start(primaryStage);
         }
         catch (Exception ex) {
