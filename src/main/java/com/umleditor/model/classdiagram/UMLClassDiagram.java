@@ -2,6 +2,9 @@ package com.umleditor.model.classdiagram;
 
 import com.umleditor.model.UMLProject;
 import com.umleditor.model.classdiagram.enums.UMLRelationType;
+import com.umleditor.model.classdiagram.exceptions.ClassIsAlreadyDefinedException;
+import com.umleditor.model.classdiagram.exceptions.ClassIsNotPresentOnDiagramException;
+import com.umleditor.model.classdiagram.exceptions.RelationCanBeDefinedOnlyOnceException;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.UMLElement;
 import com.umleditor.model.common.interfaces.UMLDiagram;
@@ -56,7 +59,12 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
     }
 
     public void addClass(UMLClass newClass) {
-        allClasses.add(newClass);
+        if(!classPresentOnDiagram(newClass)) {
+            allClasses.add(newClass);
+        }
+        else {
+            throw new ClassIsAlreadyDefinedException("Class cannot be added twice");
+        }
     }
 
     public void fullDeleteClass(UMLClass toDelete) {
@@ -73,8 +81,19 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
     }
 
     public void addRelation(UMLClass from, UMLClass to, UMLRelationType type) {
-        UMLRelation newbie = new UMLRelation(from,to,type);
-        allRelations.add(newbie);
+        if(relationExists(from,to)) {
+            throw new RelationCanBeDefinedOnlyOnceException("Relation is already defined");
+        }
+        else {
+            if(classPresentOnDiagram(from) && classPresentOnDiagram(to)){
+                UMLRelation newbie = new UMLRelation(from,to,type);
+                allRelations.add(newbie);
+            }
+            else {
+                throw new ClassIsNotPresentOnDiagramException("Class from relation is not present on diagram");
+            }
+        }
+
     }
 
     public void deleteRelation(UMLRelation relation) {
@@ -93,6 +112,13 @@ public class UMLClassDiagram extends UMLElement implements UMLDiagram {
 
     public boolean classNameExits(String name) {
         return parentProject.classNameExists(name);
+    }
+
+    public boolean classPresentOnDiagram(UMLClass clazz) {
+        Optional<UMLClass> found = allClasses.stream()
+                .filter(c -> c.getName().equals(clazz.getName()))
+                .findAny();
+        return found.isPresent();
     }
 
     public boolean relationExists(UMLClass from, UMLClass to) {

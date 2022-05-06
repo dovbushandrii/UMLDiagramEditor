@@ -6,10 +6,12 @@
  */
 package com.umleditor.model.classdiagram.exceptions;
 
+import com.umleditor.model.common.exceptions.UMLException;
+
 /**
  * Exception that is thrown when you try update not defined on diagram class
  */
-public class ClassIsNotPresentOnDiagramException extends RuntimeException {
+public class ClassIsNotPresentOnDiagramException extends UMLException {
 
     public ClassIsNotPresentOnDiagramException(String message) {
         super(message);

@@ -4,6 +4,8 @@ import com.umleditor.model.UMLProject;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.UMLElement;
 import com.umleditor.model.common.interfaces.UMLDiagram;
+import com.umleditor.model.sequencediagram.exceptions.ObjectIsAlreadyDefinedException;
+import com.umleditor.model.sequencediagram.exceptions.ObjectIsNotPresentOnDiagramException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +40,29 @@ public class UMLSequenceDiagram extends UMLElement implements UMLDiagram {
     }
 
     public void addObject(UMLElement element) {
-        allObjects.add(element);
+        if(!objectPresentOnDiagram(element)) {
+            allObjects.add(element);
+        }
+        else {
+            throw new ObjectIsAlreadyDefinedException("Object cannot be added twice");
+        }
     }
 
     public void addMessage(UMLMessage message) {
         allMessages.add(message);
+    }
+
+    public void addMessage(UMLElement from, UMLElement to, String message) {
+        if(objectPresentOnDiagram(from) && objectPresentOnDiagram(to)) {
+            UMLMessage newbie = new UMLMessage();
+            newbie.setFrom(from);
+            newbie.setTo(to);
+            newbie.setMessage(message);
+            allMessages.add(newbie);
+        }
+        else {
+            throw new ObjectIsNotPresentOnDiagramException("No such object from message is present on diagram");
+        }
     }
 
     public void fullDeleteClass(UMLClass toDelete) {
@@ -71,6 +91,13 @@ public class UMLSequenceDiagram extends UMLElement implements UMLDiagram {
                                         m.getFrom().getName().equals(deleted.getName())
                         )
                 ).collect(Collectors.toList());
+    }
+
+    public boolean objectPresentOnDiagram(UMLElement element) {
+        Optional<UMLElement> found = allObjects.stream()
+                .filter(c -> c.getName().equals(element.getName()))
+                .findAny();
+        return found.isPresent();
     }
 
     public boolean objectNameExits(String name) {

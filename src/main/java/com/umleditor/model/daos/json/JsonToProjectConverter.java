@@ -3,13 +3,16 @@ package com.umleditor.model.daos.json;
 import com.umleditor.model.UMLProject;
 import com.umleditor.model.classdiagram.UMLClassDiagram;
 import com.umleditor.model.classdiagram.enums.UMLRelationType;
+import com.umleditor.model.classdiagram.exceptions.ClassIsNotPresentOnDiagramException;
 import com.umleditor.model.common.UMLClass;
 import com.umleditor.model.common.UMLClassAttribute;
 import com.umleditor.model.common.UMLClassMethod;
+import com.umleditor.model.common.UMLElement;
 import com.umleditor.model.common.enums.UMLElementModifier;
 import com.umleditor.model.sequencediagram.UMLActor;
 import com.umleditor.model.sequencediagram.UMLMessage;
 import com.umleditor.model.sequencediagram.UMLSequenceDiagram;
+import com.umleditor.model.sequencediagram.exceptions.ObjectIsNotPresentOnDiagramException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -17,6 +20,7 @@ import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Converter From JSON string tp UMLProject object
@@ -124,14 +128,34 @@ public class JsonToProjectConverter {
 
         JSONArray classes = (JSONArray) jsonDiagram.get("classes");
         classes.forEach(jc -> {
-            diagram.addClass(project.getAllClasses().get((int)(long) jc));
+            UMLClass clazz;
+            try{
+                clazz = project.getAllClasses().get((int)(long) jc);
+            } catch (Exception ex) {
+                throw new ClassIsNotPresentOnDiagramException("No such class ID exists: " + ((long) jc));
+            }
+            diagram.addClass(clazz);
         });
 
         JSONArray relations = (JSONArray) jsonDiagram.get("relations");
         relations.forEach(jr -> {
             JSONObject jsonRelation = (JSONObject) jr;
-            UMLClass from = project.getAllClasses().get((int)(long) jsonRelation.get("from"));
-            UMLClass to = project.getAllClasses().get((int)(long) jsonRelation.get("to"));
+            UMLClass from;
+            UMLClass to;
+            int idFrom = (int)(long) jsonRelation.get("from");
+            int idTo = (int)(long) jsonRelation.get("to");
+            try {
+                from = project.getAllClasses().get(idFrom);
+            }
+            catch (Exception ex) {
+                throw new ObjectIsNotPresentOnDiagramException("No such class ID exists: " + idFrom);
+            }
+            try {
+                to = project.getAllClasses().get(idTo);
+            }
+            catch (Exception ex) {
+                throw new ObjectIsNotPresentOnDiagramException("No such class ID exists: " + idTo);
+            }
             UMLRelationType type = UMLRelationType.getTypeBySymbol((String) jsonRelation.get("type"));
             diagram.addRelation(from, to, type);
         });
@@ -156,48 +180,60 @@ public class JsonToProjectConverter {
             String sid = (String) jo;
             String type = String.valueOf(sid.charAt(sid.length() - 1));
             Integer id = Integer.parseInt(sid.substring(0, sid.length() - 1));
+            UMLElement newbie;
             if(type.equals("c")) {
-                diagram.addObject(project.getAllClasses().get(id));
+                try {
+                    newbie = project.getAllClasses().get(id);
+                } catch (Exception ex) {
+                    throw new ObjectIsNotPresentOnDiagramException("No such class ID exists: " + sid);
+                }
             }
             else {
-                diagram.addObject(actors.get(id));
+                try {
+                    newbie = actors.get(id);
+                } catch (Exception ex) {
+                    throw new ObjectIsNotPresentOnDiagramException("No such actor ID exists: " + sid);
+                }
             }
+            diagram.addObject(newbie);
         });
 
         //Messages
         JSONArray jsonMessages = (JSONArray) jsonDiagram.get("messages");
         jsonMessages.forEach(jm -> {
             JSONObject jsonMessage = (JSONObject) jm;
-            UMLMessage newbie = new UMLMessage();
             // From Entity
-            String sid = (String) jsonMessage.get("from");
-            String type = String.valueOf(sid.charAt(sid.length() - 1));
-            Integer id = Integer.parseInt(sid.substring(0, sid.length() - 1));
-            if(type.equals("c")) {
-                newbie.setFrom(project.getAllClasses().get(id));
-            }
-            else {
-                newbie.setFrom(actors.get(id));
-            }
+            UMLElement from = getObject((String) jsonMessage.get("from"), project, actors);
 
             // To Entity
-            sid = (String) jsonMessage.get("to");
-            type = String.valueOf(sid.charAt(sid.length() - 1));
-            id = Integer.parseInt(sid.substring(0, sid.length() - 1));
-            if(type.equals("c")) {
-                newbie.setTo(project.getAllClasses().get(id));
-            }
-            else {
-                newbie.setTo(actors.get(id));
-            }
+            UMLElement to = getObject((String) jsonMessage.get("to"), project, actors);
 
             // Message text
-            newbie.setMessage((String) jsonMessage.get("message"));
+            String message = (String) jsonMessage.get("message");
 
-            diagram.addMessage(newbie);
+            diagram.addMessage(from, to, message);
         });
 
         return diagram;
+    }
+
+    public static UMLElement getObject(String sid, UMLProject project, List<UMLActor> actors) {
+        String type = String.valueOf(sid.charAt(sid.length() - 1));
+        Integer id = Integer.parseInt(sid.substring(0, sid.length() - 1));
+        if(type.equals("c")) {
+            try {
+                return project.getAllClasses().get(id);
+            } catch (Exception ex) {
+                throw new ObjectIsNotPresentOnDiagramException("No such class ID exists: " + sid);
+            }
+        }
+        else {
+            try {
+                return actors.get(id);
+            } catch (Exception ex) {
+                throw new ObjectIsNotPresentOnDiagramException("No such actor ID exists: " + sid);
+            }
+        }
     }
 
 }

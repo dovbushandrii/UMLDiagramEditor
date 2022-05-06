@@ -1,0 +1,89 @@
+{
+"name":"IJA Test Project",
+"allClasses":[
+	{
+		"name":"Dog",
+		"abstract":true,
+		"fields":[
+			{
+				"modifier":"-",
+				"name":"dog_id",
+				"type":"int"
+			}
+		],
+		"methods":[
+			{
+				"modifier":"-",
+				"type":"int",
+				"name":"get_id",
+				"argumentTypes":["bool"]
+			}
+		]
+	},
+	{
+		"name":"Owner",
+		"abstract":false,
+		"fields":[],		
+		"methods":[]
+	},
+	{
+		"name":"Food",
+		"abstract":false,
+		"fields":[]
+		"methods":[],
+	},
+	{
+		"name":"Object",
+		"abstract":true,
+		"fields":[],
+		"methods":[]
+	}
+],
+"classDiagrams":[
+	{
+		"name":"Test Class Diagram",
+		"classes":[0,1,2,3],
+		"relations":[
+			{
+				"from":0,
+				"to":1,
+				"type":"Association"
+			},
+			{
+				"from":1,
+				"to":2,
+				"type":"Generalization"
+			},
+			{
+				"from":2,
+				"to":3,
+				"type":"Aggregation"
+			},
+			{
+				"from":3,
+				"to":0,
+				"type":"Composition"
+			}
+		]
+	}
+],
+"sequenceDiagrams":[
+	{
+		"name":"Test Sequence Diagram",
+		"actors":["Dog Owner"],
+		"objects":["0c","0a"],
+		"messages":[
+			{
+				"from":"0c",
+				"to":"0a",
+				"message":"owned by"
+			},
+			{
+				"from":"0a",
+				"to":"0c",
+				"message":"owns"
+			}
+		]
+	}
+]
+}
