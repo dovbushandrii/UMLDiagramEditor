@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
- * Window to edit objects in UML Sequence Diagram
+ * Modal window to edit objects in UML Sequence Diagram
  *
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00

@@ -18,6 +18,12 @@ import javafx.scene.layout.VBox;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Edit space for one Class Diagram
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ */
 public class ClassDiagramEditTab {
     private final Pane editTab;
     private Pane editTabPane;

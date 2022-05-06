@@ -10,6 +10,9 @@ import com.umleditor.model.common.exceptions.UMLException;
 
 /**
  * Exception that is thrown when you try to create second relation on same classes
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
  */
 public class RelationCanBeDefinedOnlyOnceException extends UMLException {
     public RelationCanBeDefinedOnlyOnceException(String message) {

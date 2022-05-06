@@ -20,6 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Modal window to select classes from project.
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ */
 public class SelectExistingClassWindow {
 
     public static UMLClass selectExistingClass(UMLDiagram currentDiagram) {

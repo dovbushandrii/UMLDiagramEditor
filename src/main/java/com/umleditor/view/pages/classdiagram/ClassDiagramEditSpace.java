@@ -1,6 +1,5 @@
 package com.umleditor.view.pages.classdiagram;
 
-import com.umleditor.DemoDiagramConstructor;
 import com.umleditor.model.UMLProject;
 import com.umleditor.model.classdiagram.UMLClassDiagram;
 import com.umleditor.view.pages.interfaces.DiagramEditSpace;
@@ -13,7 +12,7 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 
 /**
- * Class that control edit space for Class Diagram
+ * Class that control edit space for Class Diagrams
  *
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00
@@ -59,7 +58,8 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
         button.setOnAction(event -> {
             try {
                 project.getClassDiagrams().remove(selectedDiagram);
-            }catch (Exception e) {}
+            } catch (Exception e) {
+            }
             selectedDiagram = 0;
             constructEditSpace();
         });
@@ -93,7 +93,7 @@ public class ClassDiagramEditSpace implements DiagramEditSpace {
                 Button tab = tabButton(diagrams.get(i).getName(), i);
                 tabs.getChildren().add(tab);
             }
-            if(diagrams.size() > 0) {
+            if (diagrams.size() > 0) {
                 currentTab = new ClassDiagramEditTab(diagrams.get(selectedDiagram));
                 this.editSpace.getChildren().add(currentTab.getEditTab());
             }

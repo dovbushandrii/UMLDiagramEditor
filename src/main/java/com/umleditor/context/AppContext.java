@@ -21,6 +21,7 @@ import java.util.Properties;
  * Application Context Class.
  * Contains loaded properties and page name to builder map for primitive pages,
  * and page name to diagram,controller,builder association map.
+ * Also contains UML Project.
  *
  * @author Andrii Dovbush xdovbu00
  * @author Anastasiia Oberemko xobere00

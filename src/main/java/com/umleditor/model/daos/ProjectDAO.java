@@ -4,10 +4,11 @@ import com.umleditor.model.UMLProject;
 import com.umleditor.model.common.exceptions.UMLException;
 import com.umleditor.model.daos.exceptions.DiagramFileReadException;
 import com.umleditor.model.daos.exceptions.DiagramFileWriteException;
-import com.umleditor.model.daos.json.ProjectToJsonConverter;
 import com.umleditor.model.daos.json.JsonToProjectConverter;
+import com.umleditor.model.daos.json.ProjectToJsonConverter;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 
 /**
@@ -22,11 +23,9 @@ public class ProjectDAO {
         try {
             String json = Files.readString(loadFrom.toPath());
             return JsonToProjectConverter.jsonToProject(json);
-        }
-        catch (UMLException umlEx) {
+        } catch (UMLException umlEx) {
             throw new DiagramFileReadException(umlEx.getMessage());
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new DiagramFileReadException("File does not contain UML Project or it is broken");
         }
     }

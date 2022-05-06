@@ -1,7 +1,5 @@
 package com.umleditor.model.classdiagram.enums;
 
-import com.umleditor.model.common.enums.UMLElementModifier;
-
 import java.util.NoSuchElementException;
 
 /**

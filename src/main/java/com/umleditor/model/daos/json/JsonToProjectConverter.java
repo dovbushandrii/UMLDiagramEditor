@@ -10,7 +10,6 @@ import com.umleditor.model.common.UMLClassMethod;
 import com.umleditor.model.common.UMLElement;
 import com.umleditor.model.common.enums.UMLElementModifier;
 import com.umleditor.model.sequencediagram.UMLActor;
-import com.umleditor.model.sequencediagram.UMLMessage;
 import com.umleditor.model.sequencediagram.UMLSequenceDiagram;
 import com.umleditor.model.sequencediagram.exceptions.ObjectIsNotPresentOnDiagramException;
 import org.json.simple.JSONArray;
@@ -20,7 +19,6 @@ import org.json.simple.parser.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 /**
  * Converter From JSON string tp UMLProject object
@@ -60,7 +58,7 @@ public class JsonToProjectConverter {
             JSONObject jsonClass = (JSONObject) jo;
             UMLClass newbie = new UMLClass();
             newbie.setName((String) jsonClass.get("name"));
-            newbie.setAbstract((Boolean)jsonClass.get("abstract"));
+            newbie.setAbstract((Boolean) jsonClass.get("abstract"));
             List<UMLClassAttribute> fields = parseClassFields((JSONArray) jsonClass.get("fields"));
             newbie.setFields(fields);
             List<UMLClassMethod> methods = parseClassMethods((JSONArray) jsonClass.get("methods"));
@@ -98,8 +96,8 @@ public class JsonToProjectConverter {
             newbie.setType((String) jsonMethod.get("type"));
 
             List<String> argTypes = new ArrayList<>();
-            JSONArray jsonArgTypes = (JSONArray)jsonMethod.get("argumentTypes");
-            jsonArgTypes.forEach(ja -> argTypes.add((String)ja));
+            JSONArray jsonArgTypes = (JSONArray) jsonMethod.get("argumentTypes");
+            jsonArgTypes.forEach(ja -> argTypes.add((String) ja));
             newbie.setArgumentTypes(argTypes);
 
             allFields.add(newbie);
@@ -124,13 +122,13 @@ public class JsonToProjectConverter {
     }
 
     private static UMLClassDiagram parseClassDiagram(JSONObject jsonDiagram, UMLProject project) {
-        UMLClassDiagram diagram = project.createNewClassDiagram((String)jsonDiagram.get("name"));
+        UMLClassDiagram diagram = project.createNewClassDiagram((String) jsonDiagram.get("name"));
 
         JSONArray classes = (JSONArray) jsonDiagram.get("classes");
         classes.forEach(jc -> {
             UMLClass clazz;
-            try{
-                clazz = project.getAllClasses().get((int)(long) jc);
+            try {
+                clazz = project.getAllClasses().get((int) (long) jc);
             } catch (Exception ex) {
                 throw new ClassIsNotPresentOnDiagramException("No such class ID exists: " + ((long) jc));
             }
@@ -142,18 +140,16 @@ public class JsonToProjectConverter {
             JSONObject jsonRelation = (JSONObject) jr;
             UMLClass from;
             UMLClass to;
-            int idFrom = (int)(long) jsonRelation.get("from");
-            int idTo = (int)(long) jsonRelation.get("to");
+            int idFrom = (int) (long) jsonRelation.get("from");
+            int idTo = (int) (long) jsonRelation.get("to");
             try {
                 from = project.getAllClasses().get(idFrom);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new ObjectIsNotPresentOnDiagramException("No such class ID exists: " + idFrom);
             }
             try {
                 to = project.getAllClasses().get(idTo);
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 throw new ObjectIsNotPresentOnDiagramException("No such class ID exists: " + idTo);
             }
             UMLRelationType type = UMLRelationType.getTypeBySymbol((String) jsonRelation.get("type"));
@@ -164,7 +160,7 @@ public class JsonToProjectConverter {
     }
 
     private static UMLSequenceDiagram parseSequenceDiagram(JSONObject jsonDiagram, UMLProject project) {
-        UMLSequenceDiagram diagram = project.createNewSequenceDiagram((String)jsonDiagram.get("name"));
+        UMLSequenceDiagram diagram = project.createNewSequenceDiagram((String) jsonDiagram.get("name"));
         // Actors
         List<UMLActor> actors = new ArrayList<>();
         JSONArray jsonActors = (JSONArray) jsonDiagram.get("actors");
@@ -181,14 +177,13 @@ public class JsonToProjectConverter {
             String type = String.valueOf(sid.charAt(sid.length() - 1));
             Integer id = Integer.parseInt(sid.substring(0, sid.length() - 1));
             UMLElement newbie;
-            if(type.equals("c")) {
+            if (type.equals("c")) {
                 try {
                     newbie = project.getAllClasses().get(id);
                 } catch (Exception ex) {
                     throw new ObjectIsNotPresentOnDiagramException("No such class ID exists: " + sid);
                 }
-            }
-            else {
+            } else {
                 try {
                     newbie = actors.get(id);
                 } catch (Exception ex) {
@@ -220,14 +215,13 @@ public class JsonToProjectConverter {
     public static UMLElement getObject(String sid, UMLProject project, List<UMLActor> actors) {
         String type = String.valueOf(sid.charAt(sid.length() - 1));
         Integer id = Integer.parseInt(sid.substring(0, sid.length() - 1));
-        if(type.equals("c")) {
+        if (type.equals("c")) {
             try {
                 return project.getAllClasses().get(id);
             } catch (Exception ex) {
                 throw new ObjectIsNotPresentOnDiagramException("No such class ID exists: " + sid);
             }
-        }
-        else {
+        } else {
             try {
                 return actors.get(id);
             } catch (Exception ex) {

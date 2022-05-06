@@ -14,6 +14,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * Modal Window for message editing in Sequence Diagram
+ *
+ * @author Andrii Dovbush xdovbu00
+ * @author Anastasiia Oberemko xobere00
+ */
 public class EditMessagesWindow {
     private Stage window;
     private ListView<UMLMessage> messageList;

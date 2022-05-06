@@ -41,10 +41,9 @@ public class UMLProject {
     }
 
     public void addNewClass(UMLClass umlClass) {
-        if(!classNameExists(umlClass.getName())) {
+        if (!classNameExists(umlClass.getName())) {
             allClasses.add(umlClass);
-        }
-        else {
+        } else {
             throw new ClassIsAlreadyDefinedException("Class with this name already exists");
         }
     }

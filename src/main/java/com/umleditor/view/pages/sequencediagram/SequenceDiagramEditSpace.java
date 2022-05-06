@@ -58,7 +58,7 @@ public class SequenceDiagramEditSpace implements DiagramEditSpace {
         button.setOnAction(event -> {
             try {
                 project.getSequenceDiagrams().remove(selectedDiagram);
-            }catch (Exception e) {}
+            } catch (Exception e) {}
             selectedDiagram = 0;
             constructEditSpace();
         });
