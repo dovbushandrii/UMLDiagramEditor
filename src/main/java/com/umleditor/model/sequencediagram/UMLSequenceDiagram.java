@@ -44,7 +44,7 @@ public class UMLSequenceDiagram extends UMLElement implements UMLDiagram {
             allObjects.add(element);
         }
         else {
-            throw new ObjectIsAlreadyDefinedException("Object cannot be added twice");
+            throw new ObjectIsAlreadyDefinedException("Object \"" + element.getName() + "\" cannot be added twice");
         }
     }
 
