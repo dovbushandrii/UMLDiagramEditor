@@ -5,5 +5,3 @@ build/
 dest/
 doc/
 *.iml
-*.txt
-*.pdf
