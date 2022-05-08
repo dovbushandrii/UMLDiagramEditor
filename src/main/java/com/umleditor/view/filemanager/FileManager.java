@@ -43,7 +43,11 @@ public class FileManager {
     }
 
     public static void saveProjectFile(UMLProject project) throws IOException {
-        File savedFile = initializeSaveChooser().showSaveDialog(null);
+        FileChooser chooser = initializeSaveChooser();
+        if(project.getName().length() > 0) {
+            chooser.setInitialFileName(project.getName() + ".uml");
+        }
+        File savedFile = chooser.showSaveDialog(null);
         if (savedFile != null) {
             ProjectDAO.saveProject(project, savedFile);
         }

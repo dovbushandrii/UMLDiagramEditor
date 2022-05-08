@@ -61,25 +61,25 @@ public class MainMenuPage implements ProjectDependentPage {
         return button;
     }
 
-    private Text whatsImplementedText() {
-        Text text = new Text();
-        text.setText("What's implemented on 12 April:\n" +
-                "- You can open '*.uml' files with Class Diagram in it.\n" +
-                "- You can save '*.uml' files with Class Diagram in it.\n" +
-                "- You can view Class Diagram with draggable elements.\n" +
-                "- Example file is included: 'data/test_class_diagram.uml' at root folder\n");
-        text.setFont(Font.font(13));
-        return text;
-    }
     private Text guideText() {
         Text text = new Text();
-        text.setText("To open diagram file click 'Open' button from main menu or\n" +
-                "go to 'Class Diagram Edit' -> 'Open'.\n" +
-                "After the file is opened, drag class elements how you want.\n" +
+        text.setText("To open project file click 'Open' button from main menu or you can do it from\n" +
+                "Edit Project page when you have another project opened.\n" +
                 "\n" +
-                "To save diagram click 'Save' button on Class Diagram Edit page.\n" +
-                "Click 'New' button on Class Diagram Edit page to remove previous diagram\n" +
-                "from edit space.");
+                "Each project contains a list of classes, list of class diagrams and list of\n" +
+                "sequence diagrams.\n" +
+                "\n" +
+                "You can also create new project by clicking 'New Project' button.\n" +
+                "\n" +
+                "After you will be redirected to 'Edit Project' page. From there you can\n" +
+                "change project name, go to edit Class Diagrams and edit Sequence Diagrams.\n" +
+                "\n" +
+                "While Editing Class Diagram Classes, or Sequence Diagram Objects, you can create\n" +
+                "new class in project (and create New Actor in SD), add existing class from project, if it \n" +
+                "is not presented on diagram, delete class/object only from diagram or perform Full Delete from\n" +
+                "project. Actors are part of Sequence Diagram, not part of the project, so they cannot be used\n" +
+                "in other diagrams.\n\n" +
+                "Project saved as JSON inside .uml files.\n");
         text.setFont(Font.font(13));
         return text;
     }
@@ -102,7 +102,6 @@ public class MainMenuPage implements ProjectDependentPage {
         }
 
         root.getChildren().add(menuBar);
-        root.getChildren().add(whatsImplementedText());
         root.getChildren().add(guideText());
     }
 
